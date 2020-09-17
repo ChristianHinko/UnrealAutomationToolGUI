@@ -15,8 +15,8 @@
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="EnginePathBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="96,32,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="694"/>
-        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,309,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="Button_Click" FontSize="18"/>
+        <Button x:Name="EnginePathBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Click="EnginePathBtn_Click"/>
+        <TextBlock x:Name="EnginePathTextBlock" HorizontalAlignment="Left" Margin="96,32,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="694"/>
+        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,309,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
     </Grid>
 </Window>

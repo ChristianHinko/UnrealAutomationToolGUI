@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace UnrealAutomationToolGUI
 {
@@ -27,7 +29,15 @@ namespace UnrealAutomationToolGUI
 
         private void EnginePathBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Open folder browser dialouge to select folder
+            // Open folder browser dialog to select folder
+
+            CommonOpenFileDialog engineFolderDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true
+            };
+            engineFolderDialog.ShowDialog();
+
+            EnginePathTextBlock.Text = engineFolderDialog.FileName;
         }
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
