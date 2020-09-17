@@ -24,5 +24,14 @@ namespace UnrealAutomationToolGUI
         {
             InitializeComponent();
         }
+
+        private void EnginePathBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Open folder browser dialouge to select folder
+        }
+        private void BuildBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Run UAT (/Engine/Build/BatchFiles/RunUAT.bat)
+        }
     }
 }
