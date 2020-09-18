@@ -45,6 +45,17 @@ namespace UnrealAutomationToolGUI
 
             EnginePathTextBlock.Text = engineFolderDialog.FileName;
         }
+        private void UProjectPathBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Open folder browser dialog to select folder
+
+            CommonOpenFileDialog uprojectFolderDialog = new CommonOpenFileDialog();
+            uprojectFolderDialog.Filters.Add(new CommonFileDialogFilter("uproject file", ".uproject"));
+
+            uprojectFolderDialog.ShowDialog();
+
+            UProjectPathTextBlock.Text = uprojectFolderDialog.FileName;
+        }
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
             // Run Unreal Automation Tool
@@ -53,15 +64,17 @@ namespace UnrealAutomationToolGUI
             {
                 StartInfo = new ProcessStartInfo()
                 {
-                    FileName = $"{EnginePathTextBlock.Text}\\Engine\\Build\\BatchFiles\\RunUAT.bat"
+                    FileName = $"{EnginePathTextBlock.Text}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
+                    Arguments = $"BuildCookRun -Project=\"{UProjectPathTextBlock.Text}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Map=List+Of+Maps+To+Include -Build -Stage -Pak -Archive -ArchiveDirectory=<ArchivePath> -Rocket -Prereqs -Package",
+                    WindowStyle = ProcessWindowStyle.Hidden
                 }
             };
+            //uatProcess.StandardOutput.                trying to get UAT to output to something
 
-            // Something along the lines of this
-            //if (uatProcess.Start())
-            //{
-            //
-            //}
+            if (uatProcess.Start())
+            {
+                
+            }
         }
     }
 }
