@@ -17,6 +17,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Diagnostics;
 using System.IO;
 using System.ComponentModel;
+using UnrealAutomationToolGUI.Properties;
 
 namespace UnrealAutomationToolGUI
 {
@@ -26,7 +27,6 @@ namespace UnrealAutomationToolGUI
     /// Todo:
     ///     - Add argument buttons that add to args list for uatProcess
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
-    ///     - Have it remember your path to engine and uproject
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -36,6 +36,9 @@ namespace UnrealAutomationToolGUI
         public MainWindow()
         {
             InitializeComponent();
+
+            EngineDirectoryTextBox.Text = Settings.Default.EngineDirectory;
+            UProjectPathTextBox.Text = Settings.Default.UProjectPath;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -48,7 +51,9 @@ namespace UnrealAutomationToolGUI
 
             if (engineFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                EngineDirectoryTextBlock.Text = engineFolderDialog.FileName;
+                EngineDirectoryTextBox.Text = engineFolderDialog.FileName;
+                Settings.Default.EngineDirectory = EngineDirectoryTextBox.Text;
+                Settings.Default.Save();
             }
         }
         private void UProjectPathBtn_Click(object sender, RoutedEventArgs e)
@@ -61,14 +66,16 @@ namespace UnrealAutomationToolGUI
 
             if (uprojectFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                UProjectPathTextBlock.Text = uprojectFolderDialog.FileName;
+                UProjectPathTextBox.Text = uprojectFolderDialog.FileName;
+                Settings.Default.UProjectPath = UProjectPathTextBox.Text;
+                Settings.Default.Save();
             }
         }
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Cache our ui string variables
-            string engineDirectory = EngineDirectoryTextBlock.Text;
-            string uprojectPath = UProjectPathTextBlock.Text;
+            // Cache our ui variables
+            string engineDirectory = EngineDirectoryTextBox.Text;
+            string uprojectPath = UProjectPathTextBox.Text;
             string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject"));
             string uprojectName = uprojectDirectory.Remove(0, uprojectDirectory.LastIndexOf('\\') + 1);
 
