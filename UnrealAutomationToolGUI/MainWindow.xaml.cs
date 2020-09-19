@@ -34,7 +34,7 @@ namespace UnrealAutomationToolGUI
             InitializeComponent();
         }
 
-        private void EnginePathBtn_Click(object sender, RoutedEventArgs e)
+        private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
             // Open folder browser dialog to select folder
 
@@ -44,7 +44,7 @@ namespace UnrealAutomationToolGUI
 
             if (engineFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                EnginePathTextBlock.Text = engineFolderDialog.FileName;
+                EngineDirectoryTextBlock.Text = engineFolderDialog.FileName;
             }
         }
         private void UProjectPathBtn_Click(object sender, RoutedEventArgs e)
@@ -62,14 +62,50 @@ namespace UnrealAutomationToolGUI
         }
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
+            // Cache our ui string variables
+            string engineDirectory = EngineDirectoryTextBlock.Text;
+            string uprojectPath = UProjectPathTextBlock.Text;
+            string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject"));
+            string uprojectName = uprojectDirectory.Remove(0, uprojectDirectory.LastIndexOf('\\') + 1);
+
+
+            //// Run Unreal Build Tool
+            //
+            //Process ubtProcess = new Process()
+            //{
+            //    StartInfo = new ProcessStartInfo()
+            //    {
+            //        FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
+            //        Arguments = $"{uprojectName}Editor Win64 Development \"{uprojectDirectory}\" -WaitMutex",
+            //        WindowStyle = ProcessWindowStyle.Hidden
+            //    }
+            //};
+            //
+            //ubtProcess.StartInfo.UseShellExecute = false;
+            //ubtProcess.StartInfo.RedirectStandardOutput = true;
+            //ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            //{
+            //    OutputTextBox.Text += args.Data + '\n';
+            //});
+            //ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            //{
+            //    OutputTextBox.Text += args.Data + '\n';
+            //});
+            //
+            //if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
+            //{
+            //    ubtProcess.BeginOutputReadLine();
+            //}
+
+
             // Run Unreal Automation Tool
 
             Process uatProcess = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
-                    FileName = $"{EnginePathTextBlock.Text}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
-                    Arguments = $"BuildCookRun -Project={UProjectPathTextBlock.Text} -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Map=List+Of+Maps+To+Include -Build -Stage -Pak -Archive -ArchiveDirectory=<ArchivePath> -source -Prereqs -Package",
+                    FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
+                    Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package",
                     WindowStyle = ProcessWindowStyle.Hidden
                 }
             };
@@ -78,11 +114,11 @@ namespace UnrealAutomationToolGUI
             uatProcess.StartInfo.RedirectStandardOutput = true;
             uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
-                UATOutputTextBox.Text += args.Data + '\n';
+                OutputTextBox.Text += args.Data + '\n';
             });
             uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
-                UATOutputTextBox.Text += args.Data + '\n';
+                OutputTextBox.Text += args.Data + '\n';
             });
 
             if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
