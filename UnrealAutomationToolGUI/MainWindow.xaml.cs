@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Diagnostics;
 using System.IO;
+using System.ComponentModel;
 
 namespace UnrealAutomationToolGUI
 {
@@ -29,6 +30,9 @@ namespace UnrealAutomationToolGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Process ubtProcess
+        Process uatProcess;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +42,7 @@ namespace UnrealAutomationToolGUI
         {
             // Open folder browser dialog to select folder
 
-            CommonOpenFileDialog engineFolderDialog = new CommonOpenFileDialog();
+            CommonOpenFileDialog engineFolderDialog = new CommonOpenFileDialog("Engine directory");
             engineFolderDialog.IsFolderPicker = true;
 
 
@@ -71,7 +75,7 @@ namespace UnrealAutomationToolGUI
 
             //// Run Unreal Build Tool
             //
-            //Process ubtProcess = new Process()
+            //ubtProcess = new Process()
             //{
             //    StartInfo = new ProcessStartInfo()
             //    {
@@ -100,13 +104,19 @@ namespace UnrealAutomationToolGUI
 
             // Run Unreal Automation Tool
 
-            Process uatProcess = new Process()
+            if (uatProcess != null && uatProcess.HasExited == false)
+            {
+                return;
+            }
+
+            uatProcess = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
                     Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package",
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = false
                 }
             };
 
@@ -125,6 +135,13 @@ namespace UnrealAutomationToolGUI
             {
                 uatProcess.BeginOutputReadLine();
             }
+        }
+
+
+        private void OnApplicationEnd(object sender, CancelEventArgs e)
+        {
+            //ubtProcess.Kill(true);
+            uatProcess.Kill(true);
         }
     }
 }
