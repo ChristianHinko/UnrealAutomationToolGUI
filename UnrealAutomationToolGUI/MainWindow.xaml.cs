@@ -125,10 +125,12 @@ namespace UnrealAutomationToolGUI
             uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
+                OutputTextBox.ScrollToEnd();
             });
             uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
+                OutputTextBox.ScrollToEnd();
             });
 
             if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
@@ -140,8 +142,14 @@ namespace UnrealAutomationToolGUI
 
         private void OnApplicationEnd(object sender, CancelEventArgs e)
         {
-            //ubtProcess.Kill(true);
-            uatProcess.Kill(true);
+            //if (ubtProcess != null)
+            //{
+            //    ubtProcess.Kill(true);
+            //}
+            if (uatProcess != null)
+            {
+                uatProcess.Kill(true);
+            }
         }
     }
 }
