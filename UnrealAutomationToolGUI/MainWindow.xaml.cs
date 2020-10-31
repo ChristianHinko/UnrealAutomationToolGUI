@@ -87,7 +87,7 @@ namespace UnrealAutomationToolGUI
             // The directory that the uproject is in
             string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf('\\'));
 
-            // The name of the uproject (excluding the .uproject)
+            // The name of the uproject (excluding the ".uproject")
             string uprojectName = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).Remove(0, uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).LastIndexOf('\\') + 1);
 
             // The name of this project's editor
@@ -101,7 +101,7 @@ namespace UnrealAutomationToolGUI
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
-                    Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
+                    //Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
                     //Arguments = $"\"uprojectPath\" \"{uprojectDirectory}\\Intermediate\\Build\\Win64\\{editorName}\\DebugGame\\{editorName}.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"{engineDirectory}\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was from
                     //Arguments = $"-Target=\"{editorName} Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
                     CreateNoWindow = true
@@ -156,8 +156,7 @@ namespace UnrealAutomationToolGUI
                     StartInfo = new ProcessStartInfo()
                     {
                         FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
-                        //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
-                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package -Compile", // Includes the "Compile" commandlet which I think is required for source builds
+                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
                         //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package", // With compile - doesn't work for some reason
                         CreateNoWindow = true
                     },
