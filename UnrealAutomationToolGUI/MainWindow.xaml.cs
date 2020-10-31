@@ -100,10 +100,30 @@ namespace UnrealAutomationToolGUI
             ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
+
+                //Paragraph goodParagraph = new Paragraph()
+                //{
+                //    Foreground = Brushes.Black
+                //};
+                //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                //
+                //OutputFlowDocument.Blocks.Add(goodParagraph);
+
+                OutputTextBox.ScrollToEnd();
             });
             ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
+
+                //Paragraph errorParagraph = new Paragraph()
+                //{
+                //    Foreground = Brushes.OrangeRed
+                //};
+                //errorParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                //
+                //OutputFlowDocument.Blocks.Add(errorParagraph);
+
+                OutputTextBox.ScrollToEnd();
             });
 
             // Start the process
@@ -116,6 +136,7 @@ namespace UnrealAutomationToolGUI
             {
                 // Run Unreal Automation Tool
 
+                //                                                          IDK IF I NEED THIS I DONT FULLY REMEMBER WHY IT'S HERE
                 if (uatProcess != null && uatProcess.HasExited == false)
                 {
                     return;
@@ -126,7 +147,8 @@ namespace UnrealAutomationToolGUI
                     StartInfo = new ProcessStartInfo()
                     {
                         FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
-                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
+                        //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
+                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package -Compile", // Includes the "Compile" commandlet which I think is required for source builds
                         //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package", // With compile - doesn't work for some reason
                         CreateNoWindow = true
                     },
@@ -138,11 +160,29 @@ namespace UnrealAutomationToolGUI
                 uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
                 {
                     OutputTextBox.Text += args.Data + '\n';
+
+                    //Paragraph goodParagraph = new Paragraph()
+                    //{
+                    //    Foreground = Brushes.Black
+                    //};
+                    //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //
+                    //OutputFlowDocument.Blocks.Add(goodParagraph);
+
                     OutputTextBox.ScrollToEnd();
                 });
                 uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
                 {
                     OutputTextBox.Text += args.Data + '\n';
+
+                    //Paragraph goodParagraph = new Paragraph()
+                    //{
+                    //    Foreground = Brushes.Black
+                    //};
+                    //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //
+                    //OutputFlowDocument.Blocks.Add(goodParagraph);
+
                     OutputTextBox.ScrollToEnd();
                 });
 
@@ -151,7 +191,6 @@ namespace UnrealAutomationToolGUI
                 {
                     uatProcess.BeginOutputReadLine();
                 }
-
             };
         }
 
