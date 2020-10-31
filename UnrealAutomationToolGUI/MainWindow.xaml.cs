@@ -21,6 +21,13 @@ using UnrealAutomationToolGUI.Properties;
 
 namespace UnrealAutomationToolGUI
 {
+    enum EngineType
+    {
+        TYPE_Rocket,
+        TYPE_Source,
+        TYPE_Installed
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// 
@@ -32,6 +39,8 @@ namespace UnrealAutomationToolGUI
     {
         Process ubtProcess;
         Process uatProcess;
+
+        EngineType engineType { get; set; }
 
         public MainWindow()
         {
@@ -101,7 +110,7 @@ namespace UnrealAutomationToolGUI
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
-                    //Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
+                    Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
                     //Arguments = $"\"uprojectPath\" \"{uprojectDirectory}\\Intermediate\\Build\\Win64\\{editorName}\\DebugGame\\{editorName}.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"{engineDirectory}\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was from
                     //Arguments = $"-Target=\"{editorName} Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
                     CreateNoWindow = true
@@ -203,6 +212,27 @@ namespace UnrealAutomationToolGUI
             };
         }
 
+        string BuildUATArguments()
+        {
+            string retVal = "";
+
+            string engineTypeArg = "";
+            switch ((EngineType)EngineTypeCombo.SelectedItem)
+            {
+                case EngineType.TYPE_Rocket:
+                    engineTypeArg = "-Rocket";
+                    break;
+                case EngineType.TYPE_Source:
+                    engineTypeArg = "-source";
+                    break;
+                case EngineType.TYPE_Installed:
+                    break;
+            }
+            retVal += engineTypeArg;
+
+
+            return retVal;
+        }
 
         private void OnApplicationEnd(object sender, CancelEventArgs e)
         {
@@ -214,6 +244,11 @@ namespace UnrealAutomationToolGUI
             {
                 uatProcess.Kill(true);
             }
+        }
+
+        private void EngineTypeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            engineType = (EngineType)EngineTypeCombo.SelectedItem;
         }
     }
 }

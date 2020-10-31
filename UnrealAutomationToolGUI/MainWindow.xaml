@@ -22,5 +22,9 @@
         <TextBox x:Name="UProjectPathTextBox" HorizontalAlignment="Left" Margin="104,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
         <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,248,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
         <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="18,157,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}" SelectedIndex="0">
+        </ComboBox>
+        <Label Content="Settings:" HorizontalAlignment="Left" Margin="18,126,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
