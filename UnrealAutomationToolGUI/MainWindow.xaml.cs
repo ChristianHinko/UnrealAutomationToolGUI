@@ -30,7 +30,7 @@ namespace UnrealAutomationToolGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Process ubtProcess
+        Process ubtProcess;
         Process uatProcess;
 
         public MainWindow()
@@ -80,79 +80,88 @@ namespace UnrealAutomationToolGUI
             string uprojectName = uprojectDirectory.Remove(0, uprojectDirectory.LastIndexOf('\\') + 1);
 
 
-            //// Run Unreal Build Tool
-            //
-            //ubtProcess = new Process()
-            //{
-            //    StartInfo = new ProcessStartInfo()
-            //    {
-            //        FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
-            //        Arguments = $"{uprojectName}Editor Win64 Development \"{uprojectDirectory}\" -WaitMutex",
-            //        WindowStyle = ProcessWindowStyle.Hidden
-            //    }
-            //};
-            //
-            //ubtProcess.StartInfo.UseShellExecute = false;
-            //ubtProcess.StartInfo.RedirectStandardOutput = true;
-            //ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
-            //{
-            //    OutputTextBox.Text += args.Data + '\n';
-            //});
-            //ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
-            //{
-            //    OutputTextBox.Text += args.Data + '\n';
-            //});
-            //
-            //if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
-            //{
-            //    ubtProcess.BeginOutputReadLine();
-            //}
+            // Run Unreal Build Tool
 
-
-            // Run Unreal Automation Tool
-
-            if (uatProcess != null && uatProcess.HasExited == false)
-            {
-                return;
-            }
-
-            uatProcess = new Process()
+            ubtProcess = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
-                    FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
-                    Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = false
-                }
+                    FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
+                    Arguments = $"{uprojectName}Editor Win64 Development \"{uprojectPath}\" -WaitMutex",
+                    //Arguments = $"\"C:\\Users\\Christian Hinkle\\Documents\\Unreal Projects\\SonicShooter\\SonicShooter\\SonicShooter.uproject\" \"C:\\Users\\Christian Hinkle\\Documents\\Unreal Projects\\SonicShooter\\SonicShooter\\Intermediate\\Build\\Win64\\SonicShooterEditor\\DebugGame\\SonicShooterEditor.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"C:\\Users\\Christian Hinkle\\Documents\\UE4\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was
+                    //Arguments = $"-Target=\"SonicShooterEditor Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
+                    CreateNoWindow = true
+                },
+                EnableRaisingEvents = true
             };
 
-            uatProcess.StartInfo.UseShellExecute = false;
-            uatProcess.StartInfo.RedirectStandardOutput = true;
-            uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            ubtProcess.StartInfo.UseShellExecute = false;
+            ubtProcess.StartInfo.RedirectStandardOutput = true;
+            ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
-                OutputTextBox.ScrollToEnd();
             });
-            uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
                 OutputTextBox.Text += args.Data + '\n';
-                OutputTextBox.ScrollToEnd();
             });
 
-            if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
+            // Start the process
+            if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
             {
-                uatProcess.BeginOutputReadLine();
+                ubtProcess.BeginOutputReadLine();
             }
+
+            ubtProcess.Exited += (se, ev) =>
+            {
+                // Run Unreal Automation Tool
+
+                if (uatProcess != null && uatProcess.HasExited == false)
+                {
+                    return;
+                }
+
+                uatProcess = new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
+                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
+                        //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package", // With compile - doesn't work for some reason
+                        CreateNoWindow = true
+                    },
+                    EnableRaisingEvents = true
+                };
+
+                uatProcess.StartInfo.UseShellExecute = false;
+                uatProcess.StartInfo.RedirectStandardOutput = true;
+                uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
+                {
+                    OutputTextBox.Text += args.Data + '\n';
+                    OutputTextBox.ScrollToEnd();
+                });
+                uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
+                {
+                    OutputTextBox.Text += args.Data + '\n';
+                    OutputTextBox.ScrollToEnd();
+                });
+
+                // Start the process
+                if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
+                {
+                    uatProcess.BeginOutputReadLine();
+                }
+
+            };
         }
 
 
         private void OnApplicationEnd(object sender, CancelEventArgs e)
         {
-            //if (ubtProcess != null)
-            //{
-            //    ubtProcess.Kill(true);
-            //}
+            if (ubtProcess != null)
+            {
+                ubtProcess.Kill(true);
+            }
             if (uatProcess != null)
             {
                 uatProcess.Kill(true);
