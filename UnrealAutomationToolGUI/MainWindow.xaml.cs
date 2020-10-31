@@ -37,6 +37,7 @@ namespace UnrealAutomationToolGUI
         {
             InitializeComponent();
 
+            // Load user preferences
             EngineDirectoryTextBox.Text = Settings.Default.EngineDirectory;
             UProjectPathTextBox.Text = Settings.Default.UProjectPath;
         }
@@ -52,13 +53,15 @@ namespace UnrealAutomationToolGUI
             if (engineFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
                 EngineDirectoryTextBox.Text = engineFolderDialog.FileName;
+
+                // Save this preference to user settings
                 Settings.Default.EngineDirectory = EngineDirectoryTextBox.Text;
                 Settings.Default.Save();
             }
         }
         private void UProjectPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Open folder browser dialog to select folder
+            // Open folder browser dialog to select file
 
             CommonOpenFileDialog uprojectFolderDialog = new CommonOpenFileDialog();
             uprojectFolderDialog.Filters.Add(new CommonFileDialogFilter("uproject file", ".uproject"));
@@ -67,29 +70,40 @@ namespace UnrealAutomationToolGUI
             if (uprojectFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
                 UProjectPathTextBox.Text = uprojectFolderDialog.FileName;
+
+                // Save this preference to user settings
                 Settings.Default.UProjectPath = UProjectPathTextBox.Text;
                 Settings.Default.Save();
             }
         }
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Cache our ui variables
+            // The directory that holds the engine
             string engineDirectory = EngineDirectoryTextBox.Text;
+
+            // The path to the .uproject
             string uprojectPath = UProjectPathTextBox.Text;
-            string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject"));
-            string uprojectName = uprojectDirectory.Remove(0, uprojectDirectory.LastIndexOf('\\') + 1);
+
+            // The directory that the uproject is in
+            string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf('\\'));
+
+            // The name of the uproject (excluding the .uproject)
+            string uprojectName = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).Remove(0, uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).LastIndexOf('\\') + 1);
+
+            // The name of this project's editor
+            string editorName = uprojectName + "Editor";
 
 
-            // Run Unreal Build Tool
+            //                                                                          Run Unreal Build Tool
 
             ubtProcess = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
-                    Arguments = $"{uprojectName}Editor Win64 Development \"{uprojectPath}\" -WaitMutex",
-                    //Arguments = $"\"C:\\Users\\Christian Hinkle\\Documents\\Unreal Projects\\SonicShooter\\SonicShooter\\SonicShooter.uproject\" \"C:\\Users\\Christian Hinkle\\Documents\\Unreal Projects\\SonicShooter\\SonicShooter\\Intermediate\\Build\\Win64\\SonicShooterEditor\\DebugGame\\SonicShooterEditor.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"C:\\Users\\Christian Hinkle\\Documents\\UE4\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was
-                    //Arguments = $"-Target=\"SonicShooterEditor Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
+                    Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
+                    //Arguments = $"\"uprojectPath\" \"{uprojectDirectory}\\Intermediate\\Build\\Win64\\{editorName}\\DebugGame\\{editorName}.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"{engineDirectory}\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was from
+                    //Arguments = $"-Target=\"{editorName} Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
                     CreateNoWindow = true
                 },
                 EnableRaisingEvents = true
@@ -129,18 +143,13 @@ namespace UnrealAutomationToolGUI
             // Start the process
             if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
             {
+                // Read the process's output so we can display it in the text box
                 ubtProcess.BeginOutputReadLine();
             }
 
             ubtProcess.Exited += (se, ev) =>
             {
-                // Run Unreal Automation Tool
-
-                //                                                          IDK IF I NEED THIS I DONT FULLY REMEMBER WHY IT'S HERE
-                if (uatProcess != null && uatProcess.HasExited == false)
-                {
-                    return;
-                }
+                //                                                                      Run Unreal Automation Tool
 
                 uatProcess = new Process()
                 {
@@ -189,6 +198,7 @@ namespace UnrealAutomationToolGUI
                 // Start the process
                 if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
                 {
+                    // Read the process's output so we can display it in the text box
                     uatProcess.BeginOutputReadLine();
                 }
             };
