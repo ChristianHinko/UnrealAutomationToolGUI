@@ -51,6 +51,54 @@ namespace UnrealAutomationToolGUI
         BUILD_Test
     }
 
+    enum TargetPlatform
+    {
+        [Description("Win32")]
+        PLAT_Win32,
+
+        [Description("Win64")]
+        PLAT_Win64,
+
+        [Description("HoloLens")]
+        PLAT_HoloLens,
+
+        [Description("Mac")]
+        PLAT_Mac,
+
+        [Description("XboxOne")]
+        PLAT_XboxOne,
+
+        [Description("PS4")]
+        PLAT_PS4,
+
+        [Description("IOS")]
+        PLAT_IOS,
+
+        [Description("Android")]
+        PLAT_Android,
+
+        [Description("HTML5")]
+        PLAT_HTML5,
+
+        [Description("Linux")]
+        PLAT_Linux,
+
+        [Description("LinuxAArch64")]
+        PLAT_LinuxAArch64,
+
+        [Description("AllDesktop")]
+        PLAT_AllDesktop,
+
+        [Description("TVOS")]
+        PLAT_TVOS,
+
+        [Description("Switch")]
+        PLAT_Switch,
+
+        [Description("Lumin")]
+        PLAT_Lumin
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// 
@@ -66,6 +114,8 @@ namespace UnrealAutomationToolGUI
         EngineType engineType { get; set; }
 
         BuildConfiguration buildConfiguration { get; set; }
+
+        TargetPlatform targetPlatform { get; set; }
 
         public MainWindow()
         {
@@ -186,7 +236,7 @@ namespace UnrealAutomationToolGUI
                 //                                                                      Run Unreal Automation Tool
 
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
                 Dispatcher.Invoke(() =>
                 {
                     uatArguments += BuildUATArguments();
@@ -254,15 +304,16 @@ namespace UnrealAutomationToolGUI
             switch ((EngineType)EngineTypeCombo.SelectedItem)
             {
                 case EngineType.TYPE_Rocket:
-                    engineTypeArg = " -Rocket";
+                    engineTypeArg = "Rocket";
                     break;
                 case EngineType.TYPE_Source:
-                    engineTypeArg = " -source";
+                    engineTypeArg = "source";
                     break;
                 case EngineType.TYPE_Installed:
-                    //engineTypeArg = " -source";      //TODO: TEMP idk what arg to use for this
+                    //engineTypeArg = "source";      //TODO: TEMP idk what arg to use for this
                     break;
             }
+            engineTypeArg = " -" + engineTypeArg;
             retVal += engineTypeArg;
 
 
@@ -292,6 +343,61 @@ namespace UnrealAutomationToolGUI
             retVal += buildConfigurationArg;
 
 
+            string targetPlatformArg = "";
+            switch ((TargetPlatform)TargetPlatformCombo.SelectedItem) // TODO: THESE SHOULD BE CHECK BOXES ACTUALLY NOT COMBO BOX
+            {
+                case TargetPlatform.PLAT_Win32:
+                    targetPlatformArg = "Win32";
+                    break;
+                case TargetPlatform.PLAT_Win64:
+                    targetPlatformArg = "Win64";
+                    break;
+                case TargetPlatform.PLAT_HoloLens:
+                    targetPlatformArg = "HoloLens";
+                    break;
+                case TargetPlatform.PLAT_Mac:
+                    targetPlatformArg = "Mac";
+                    break;
+                case TargetPlatform.PLAT_XboxOne:
+                    targetPlatformArg = "XboxOne";
+                    break;
+                case TargetPlatform.PLAT_PS4:
+                    targetPlatformArg = "PS4";
+                    break;
+                case TargetPlatform.PLAT_IOS:
+                    targetPlatformArg = "IOS";
+                    break;
+                case TargetPlatform.PLAT_Android:
+                    targetPlatformArg = "Android";
+                    break;
+                case TargetPlatform.PLAT_HTML5:
+                    targetPlatformArg = "HTML5";
+                    break;
+                case TargetPlatform.PLAT_Linux:
+                    targetPlatformArg = "Linux";
+                    break;
+                case TargetPlatform.PLAT_LinuxAArch64:
+                    targetPlatformArg = "LinuxAArch64";
+                    break;
+                case TargetPlatform.PLAT_AllDesktop:
+                    targetPlatformArg = "AllDesktop";
+                    break;
+                case TargetPlatform.PLAT_TVOS:
+                    targetPlatformArg = "TVOS";
+                    break;
+                case TargetPlatform.PLAT_Switch:
+                    targetPlatformArg = "Switch";
+                    break;
+                case TargetPlatform.PLAT_Lumin:
+                    targetPlatformArg = "Lumin";
+                    break;
+                default:
+                    break;
+            }
+            targetPlatformArg = $" -TargetPlatform={targetPlatformArg}";
+            retVal += targetPlatformArg;
+
+
 
             return retVal;
         }
@@ -316,6 +422,11 @@ namespace UnrealAutomationToolGUI
         private void BuildConfigurationCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             buildConfiguration = (BuildConfiguration)BuildConfigurationCombo.SelectedItem;
+        }
+
+        private void TargetPlatformCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            targetPlatform = (TargetPlatform)TargetPlatformCombo.SelectedItem;
         }
     }
 }

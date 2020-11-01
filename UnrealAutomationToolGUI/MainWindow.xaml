@@ -31,5 +31,8 @@
         <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
         </ComboBox>
+        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="197,139,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
+        </ComboBox>
     </Grid>
 </Window>
