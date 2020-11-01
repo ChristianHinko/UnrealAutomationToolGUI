@@ -160,12 +160,19 @@ namespace UnrealAutomationToolGUI
             {
                 //                                                                      Run Unreal Automation Tool
 
+
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Prereqs -Package";
+                Dispatcher.Invoke(() =>
+                {
+                    uatArguments += BuildUATArguments();
+                });
+
                 uatProcess = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
                     {
                         FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\RunUAT.bat",
-                        Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -source -Prereqs -Package", // No compile - assuming you're using UBT before this
+                        Arguments = uatArguments,
                         //Arguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -source -Prereqs -Package", // With compile - doesn't work for some reason
                         CreateNoWindow = true
                     },
@@ -216,19 +223,23 @@ namespace UnrealAutomationToolGUI
         {
             string retVal = "";
 
+
+
             string engineTypeArg = "";
             switch ((EngineType)EngineTypeCombo.SelectedItem)
             {
                 case EngineType.TYPE_Rocket:
-                    engineTypeArg = "-Rocket";
+                    engineTypeArg = " -Rocket";
                     break;
                 case EngineType.TYPE_Source:
-                    engineTypeArg = "-source";
+                    engineTypeArg = " -source";
                     break;
                 case EngineType.TYPE_Installed:
+                    //engineTypeArg = "-source";      //TODO: TEMP idk what arg to use for this
                     break;
             }
             retVal += engineTypeArg;
+
 
 
             return retVal;
