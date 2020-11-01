@@ -23,9 +23,32 @@ namespace UnrealAutomationToolGUI
 {
     enum EngineType
     {
+        [Description("Rocket")]
         TYPE_Rocket,
+
+        [Description("Source")]
         TYPE_Source,
+
+        [Description("Installed")]
         TYPE_Installed
+    }
+
+    enum BuildConfiguration
+    {
+        [Description("Debug")]
+        BUILD_Debug,
+
+        [Description("DebugGame")]
+        BUILD_DebugGame,
+
+        [Description("Development")]
+        BUILD_Development,
+
+        [Description("Shipping")]
+        BUILD_Shipping,
+
+        [Description("Test")]
+        BUILD_Test
     }
 
     /// <summary>
@@ -41,6 +64,8 @@ namespace UnrealAutomationToolGUI
         Process uatProcess;
 
         EngineType engineType { get; set; }
+
+        BuildConfiguration buildConfiguration { get; set; }
 
         public MainWindow()
         {
@@ -161,7 +186,7 @@ namespace UnrealAutomationToolGUI
                 //                                                                      Run Unreal Automation Tool
 
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Prereqs -Package";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Win64 -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
                 Dispatcher.Invoke(() =>
                 {
                     uatArguments += BuildUATArguments();
@@ -235,10 +260,36 @@ namespace UnrealAutomationToolGUI
                     engineTypeArg = " -source";
                     break;
                 case EngineType.TYPE_Installed:
-                    //engineTypeArg = "-source";      //TODO: TEMP idk what arg to use for this
+                    //engineTypeArg = " -source";      //TODO: TEMP idk what arg to use for this
                     break;
             }
             retVal += engineTypeArg;
+
+
+            string buildConfigurationArg = "";
+            switch ((BuildConfiguration)BuildConfigurationCombo.SelectedItem)
+            {
+                case BuildConfiguration.BUILD_Debug:
+                    buildConfigurationArg = "Debug";
+                    break;
+                case BuildConfiguration.BUILD_DebugGame:
+                    buildConfigurationArg = "DebugGame";
+                    break;
+                case BuildConfiguration.BUILD_Development:
+                    buildConfigurationArg = "Development";
+                    break;
+                case BuildConfiguration.BUILD_Shipping:
+                    buildConfigurationArg = "Shipping";
+                    break;
+                case BuildConfiguration.BUILD_Test:
+                    buildConfigurationArg = "Test";
+                    break;
+                default:
+                    buildConfigurationArg = "Unknown";
+                    break;
+            }
+            buildConfigurationArg = $" -ClientConfig={buildConfigurationArg} -ServerConfig={buildConfigurationArg}";
+            retVal += buildConfigurationArg;
 
 
 
@@ -260,6 +311,11 @@ namespace UnrealAutomationToolGUI
         private void EngineTypeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             engineType = (EngineType)EngineTypeCombo.SelectedItem;
+        }
+
+        private void BuildConfigurationCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            buildConfiguration = (BuildConfiguration)BuildConfigurationCombo.SelectedItem;
         }
     }
 }

@@ -28,5 +28,8 @@
         <Label Content="Engine Type:" HorizontalAlignment="Right" Margin="0,89,701,0" VerticalAlignment="Top"/>
         <Label Content="Settings" HorizontalAlignment="Left" Margin="737,114,0,0" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Left" Margin="0,120,0,0" VerticalAlignment="Top" Height="14" Width="737"/>
+        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
+        </ComboBox>
     </Grid>
 </Window>
