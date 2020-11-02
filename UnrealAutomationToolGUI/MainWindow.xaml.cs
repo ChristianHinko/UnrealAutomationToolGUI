@@ -118,7 +118,9 @@ namespace UnrealAutomationToolGUI
 
         TargetPlatform targetPlatform { get; set; }
 
-        bool stage;
+        bool server { get; set; }
+
+        bool noClient { get; set; }
 
         public MainWindow()
         {
@@ -239,7 +241,7 @@ namespace UnrealAutomationToolGUI
                 //                                                                      Run Unreal Automation Tool
 
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Pak -Prereqs -Package";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
                 Dispatcher.Invoke(() =>
                 {
                     uatArguments += BuildUATArguments();
@@ -302,6 +304,7 @@ namespace UnrealAutomationToolGUI
             string retVal = "";
 
 
+            // -<Engine Type>
 
             string engineTypeArg = "";
             switch ((EngineType)EngineTypeCombo.SelectedItem)
@@ -319,6 +322,8 @@ namespace UnrealAutomationToolGUI
             engineTypeArg = " -" + engineTypeArg;
             retVal += engineTypeArg;
 
+
+            // -ClientConfig=<Configuration> -ServerConfig=<Configuration>
 
             string buildConfigurationArg = "";
             switch ((BuildConfiguration)BuildConfigurationCombo.SelectedItem)
@@ -345,6 +350,8 @@ namespace UnrealAutomationToolGUI
             buildConfigurationArg = $" -ClientConfig={buildConfigurationArg} -ServerConfig={buildConfigurationArg}";
             retVal += buildConfigurationArg;
 
+
+            // -TargetPlatform=<Platform1>+<Platform2>
 
             string targetPlatformArg = "";
             switch ((TargetPlatform)TargetPlatformCombo.SelectedItem) // TODO: THESE SHOULD BE CHECK BOXES ACTUALLY NOT COMBO BOX
@@ -401,27 +408,27 @@ namespace UnrealAutomationToolGUI
             retVal += targetPlatformArg;
 
 
-            string stageArg = "";
-            if (/*StageCheckBox.IsEnabled */stage)
+            // -Server
+
+            string serverArg = "";
+            if (/*ServerCheckBox.IsEnabled */server)
             {
-                stageArg = "Stage";
+                serverArg = " -Server";
             }
-            else
+            retVal += serverArg;
+
+
+            // -NoClient
+
+            string noClientArg = "";
+            if (/*NoClientCheckBox.IsEnabled */noClient)
             {
-                stageArg = "SkipStage";
+                noClientArg = " -NoClient";
             }
-            retVal += " -" + stageArg;
+            retVal += noClientArg;
 
 
-            //[Help("stagingdirectory=Path", "Directory to copy the builds to, i.e. -stagingdirectory=C:\\Stage")]
-            //public string StageDirectoryParam;
-
-            ///// <summary>
-            ///// Cook: Only cook maps (and referenced content) instead of cooking everything only affects cookall flag
-            ///// </summary>
-            //[Help("CookAll", "Cook all the things in the content directory for this project")]
-            //public bool CookAll;
-
+            // StagingDirectory=<Dir>
 
             string stagingDirectoryArg = "";
             string stagingDirectory = StagingDirectoryTextBox.Text;
@@ -432,11 +439,15 @@ namespace UnrealAutomationToolGUI
             retVal += stagingDirectoryArg;
 
 
-            // -NoClient
 
 
+            ///// <summary>
+            ///// Cook: Only cook maps (and referenced content) instead of cooking everything only affects cookall flag
+            ///// </summary>
+            //[Help("CookAll", "Cook all the things in the content directory for this project")]
+            //public bool CookAll;
 
-            // -Server
+
 
 
             return retVal;
@@ -469,15 +480,26 @@ namespace UnrealAutomationToolGUI
             targetPlatform = (TargetPlatform)TargetPlatformCombo.SelectedItem;
         }
 
-        private void StageCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //stage = StageCheckBox.IsEnabled;
-            stage = true;
+            //server = ServerCheckBox.IsEnabled;
+            server = true;
         }
-        private void StageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            //stage = StageCheckBox.IsEnabled;
-            stage = false;
+            //server = ServerCheckBox.IsEnabled;
+            server = false;
+        }
+
+        private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            //noClient = NoClientCheckBox.IsEnabled;
+            noClient = true;
+        }
+        private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //noClient = NoClientCheckBox.IsEnabled;
+            noClient = false;
         }
 
         private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
