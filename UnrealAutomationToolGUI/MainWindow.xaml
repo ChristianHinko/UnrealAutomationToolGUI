@@ -38,8 +38,10 @@
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="23,159,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
 
-        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="365,174,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
-        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="466,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default"/>
+        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="365,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked"/>
+        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="365,162,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked"/>
+        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="365,116,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
+        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="466,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default"/>
 
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="716,362,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
@@ -49,5 +51,6 @@
 
         <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
         <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
+
     </Grid>
 </Window>

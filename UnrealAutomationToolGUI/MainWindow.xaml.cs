@@ -120,8 +120,10 @@ namespace UnrealAutomationToolGUI
         TargetPlatform targetPlatform { get; set; }
 
         bool server { get; set; }
-
         bool noClient { get; set; }
+
+        bool stage { get; set; }
+        bool skipStage { get; set; }
 
         bool build { get; set; }
         bool cook { get; set; }
@@ -304,13 +306,26 @@ namespace UnrealAutomationToolGUI
                 {
                     OutputTextBox.Text += args.Data + '\n';
 
-                    //Paragraph goodParagraph = new Paragraph()
+                    Paragraph paragraph = new Paragraph();
+
+                    //if (args.Data.Contains("ERROR: "))
                     //{
-                    //    Foreground = Brushes.Black
-                    //};
-                    //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //    // Error color
+                    //    paragraph.Foreground = Brushes.Red;
+                    //}
+                    //else if (args.Data.Contains("WARNING: "))
+                    //{
+                    //    // Warning color
+                    //    paragraph.Foreground = Brushes.Yellow;
+                    //}
+                    //else
+                    //{
+                    //    // Normal color
+                    //    paragraph.Foreground = Brushes.Black;
+                    //}
                     //
-                    //OutputFlowDocument.Blocks.Add(goodParagraph);
+                    //paragraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //OutputFlowDocument.Blocks.Add(paragraph);
 
                     OutputTextBox.ScrollToEnd();
                 });
@@ -318,13 +333,13 @@ namespace UnrealAutomationToolGUI
                 {
                     OutputTextBox.Text += args.Data + '\n';
 
-                    //Paragraph goodParagraph = new Paragraph()
-                    //{
-                    //    Foreground = Brushes.Black
-                    //};
-                    //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //Paragraph paragraph = new Paragraph();
                     //
-                    //OutputFlowDocument.Blocks.Add(goodParagraph);
+                    //// Error color
+                    //paragraph.Foreground = Brushes.Red;
+                    //
+                    //paragraph.Inlines.Add(new Run(args.Data + '\n'));
+                    //OutputFlowDocument.Blocks.Add(paragraph);
 
                     OutputTextBox.ScrollToEnd();
                 });
@@ -456,7 +471,7 @@ namespace UnrealAutomationToolGUI
             // -Build
 
             string buildArg = "";
-            if (/*ServerCheckBox.IsEnabled */build)
+            if (/*BuildCheckBox.IsEnabled */build)
             {
                 buildArg = " -Build";
             }
@@ -466,9 +481,9 @@ namespace UnrealAutomationToolGUI
             // -Cook
 
             string cookArg = "";
-            if (/*ServerCheckBox.IsEnabled */cook)
+            if (/*CookCheckBox.IsEnabled */cook)
             {
-                // -Stage or -SkipStage
+                // requires -Stage or -SkipStage
                 cookArg = " -Cook";
             }
             retVal += cookArg;
@@ -477,10 +492,10 @@ namespace UnrealAutomationToolGUI
             // -Package
 
             string packageArg = "";
-            if (/*ServerCheckBox.IsEnabled */package)
+            if (/*PackageCheckBox.IsEnabled */package)
             {
                 // -Pak
-                packageArg = " -Package -Pak";
+                packageArg = " -Package";
             }
             retVal += packageArg;
 
@@ -503,6 +518,26 @@ namespace UnrealAutomationToolGUI
                 noClientArg = " -NoClient";
             }
             retVal += noClientArg;
+
+
+            // -Stage
+
+            string stageArg = "";
+            if (stage)
+            {
+                stageArg = " -Stage";
+            }
+            retVal += stageArg;
+
+
+            // -Stage
+
+            string skipStageArg = "";
+            if (skipStage)
+            {
+                skipStageArg = " -SkipStage";
+            }
+            retVal += skipStageArg;
 
 
             // StagingDirectory=<Dir>
@@ -589,6 +624,23 @@ namespace UnrealAutomationToolGUI
         {
             //noClient = NoClientCheckBox.IsEnabled;
             noClient = false;
+        }
+
+        private void StageRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            stage = true;
+        }
+        private void StageRadioBtn_UnChecked(object sender, RoutedEventArgs e)
+        {
+            stage = false;
+        }
+        private void SkipStageRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            skipStage = true;
+        }
+        private void SkipStageRadioBtn_UnChecked(object sender, RoutedEventArgs e)
+        {
+            skipStage = false;
         }
 
         private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
