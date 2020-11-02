@@ -111,6 +111,7 @@ namespace UnrealAutomationToolGUI
     {
         Process ubtProcess;
         Process uatProcess;
+        bool pendingProcessKill;
 
         EngineType engineType { get; set; }
 
@@ -126,9 +127,11 @@ namespace UnrealAutomationToolGUI
         {
             InitializeComponent();
 
+
             // Load user preferences
             EngineDirectoryTextBox.Text = Settings.Default.EngineDirectory;
             UProjectPathTextBox.Text = Settings.Default.UProjectPath;
+            EngineTypeCombo.SelectedIndex = Settings.Default.EngineType;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -146,6 +149,7 @@ namespace UnrealAutomationToolGUI
                 // Save this preference to user settings
                 Settings.Default.EngineDirectory = EngineDirectoryTextBox.Text;
                 Settings.Default.Save();
+                Settings.Default.Reload();
             }
         }
         private void UProjectPathBtn_Click(object sender, RoutedEventArgs e)
@@ -163,10 +167,25 @@ namespace UnrealAutomationToolGUI
                 // Save this preference to user settings
                 Settings.Default.UProjectPath = UProjectPathTextBox.Text;
                 Settings.Default.Save();
+                Settings.Default.Reload();
             }
         }
+        private void EngineTypeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            engineType = (EngineType)EngineTypeCombo.SelectedItem;
+
+            // Save this preference to user settings
+            Settings.Default.EngineType = EngineTypeCombo.SelectedIndex;
+            Settings.Default.Save();
+            Settings.Default.Reload();
+        }
+
         private void BuildBtn_Click(object sender, RoutedEventArgs e)
         {
+            // We clicked build, so at this point we know the user doesn't want to cancel build
+            pendingProcessKill = false;
+
+
             // The directory that holds the engine
             string engineDirectory = EngineDirectoryTextBox.Text;
 
@@ -229,6 +248,12 @@ namespace UnrealAutomationToolGUI
                 OutputTextBox.ScrollToEnd();
             });
 
+            // Ensure the user wants us to start this process
+            if (pendingProcessKill)
+            {
+                return;
+            }
+
             // Start the process
             if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
             {
@@ -238,6 +263,12 @@ namespace UnrealAutomationToolGUI
 
             ubtProcess.Exited += (se, ev) =>
             {
+                // Ensure the user wants us to start this process
+                if (pendingProcessKill)
+                {
+                    return;
+                }
+
                 //                                                                      Run Unreal Automation Tool
 
 
@@ -453,23 +484,6 @@ namespace UnrealAutomationToolGUI
             return retVal;
         }
 
-        private void OnApplicationEnd(object sender, CancelEventArgs e)
-        {
-            if (ubtProcess != null)
-            {
-                ubtProcess.Kill(true);
-            }
-            if (uatProcess != null)
-            {
-                uatProcess.Kill(true);
-            }
-        }
-
-        private void EngineTypeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            engineType = (EngineType)EngineTypeCombo.SelectedItem;
-        }
-
         private void BuildConfigurationCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             buildConfiguration = (BuildConfiguration)BuildConfigurationCombo.SelectedItem;
@@ -513,6 +527,50 @@ namespace UnrealAutomationToolGUI
             if (stagingDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
                 StagingDirectoryTextBox.Text = stagingDirectoryDialog.FileName;
+            }
+        }
+
+
+        private void OnApplicationEnd(object sender, CancelEventArgs e)
+        {
+            KillProcesses();
+        }
+
+        private bool KillProcesses()
+        {
+            bool killedAProcess = false;
+
+            if (ubtProcess != null)
+            {
+                ubtProcess.Kill(true);
+                ubtProcess = null;
+                killedAProcess = true;
+            }
+            if (uatProcess != null)
+            {
+                uatProcess.Kill(true);
+                uatProcess = null;
+                killedAProcess = true;
+            }
+
+            return killedAProcess;
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            pendingProcessKill = true;
+            if (KillProcesses())
+            {
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += "KILLED ALL PROCESSES";
+                OutputTextBox.ScrollToEnd();
             }
         }
     }
