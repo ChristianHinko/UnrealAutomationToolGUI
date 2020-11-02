@@ -20,8 +20,8 @@
         <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
         <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
         <TextBox x:Name="UProjectPathTextBox" HorizontalAlignment="Left" Margin="104,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
-        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,227,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
-        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
+        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
         <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="104,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}" SelectedIndex="1">
         </ComboBox>
@@ -35,5 +35,9 @@
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
         </ComboBox>
         <CheckBox x:Name="StageCheckBox" Content="Stage" HorizontalAlignment="Left" Margin="333,121,0,0" VerticalAlignment="Top" Checked="StageCheckBox_Checked" Unchecked="StageCheckBox_Unchecked" IsChecked="True"/>
+
+        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="400,116,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
+        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="501,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default"/>
+        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
     </Grid>
 </Window>

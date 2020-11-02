@@ -133,13 +133,13 @@ namespace UnrealAutomationToolGUI
         {
             // Open folder browser dialog to select folder
 
-            CommonOpenFileDialog engineFolderDialog = new CommonOpenFileDialog("Engine directory");
-            engineFolderDialog.IsFolderPicker = true;
+            CommonOpenFileDialog engineDirectoryDialog = new CommonOpenFileDialog("Engine directory");
+            engineDirectoryDialog.IsFolderPicker = true;
 
 
-            if (engineFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
+            if (engineDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                EngineDirectoryTextBox.Text = engineFolderDialog.FileName;
+                EngineDirectoryTextBox.Text = engineDirectoryDialog.FileName;
 
                 // Save this preference to user settings
                 Settings.Default.EngineDirectory = EngineDirectoryTextBox.Text;
@@ -404,18 +404,32 @@ namespace UnrealAutomationToolGUI
             string stageArg = "";
             if (/*StageCheckBox.IsEnabled */stage)
             {
-                stageArg = " -Stage";
+                stageArg = "Stage";
             }
             else
             {
-                stageArg = " -SkipStage";
+                stageArg = "SkipStage";
             }
-            retVal += stageArg;
+            retVal += " -" + stageArg;
 
 
             //[Help("stagingdirectory=Path", "Directory to copy the builds to, i.e. -stagingdirectory=C:\\Stage")]
             //public string StageDirectoryParam;
 
+            ///// <summary>
+            ///// Cook: Only cook maps (and referenced content) instead of cooking everything only affects cookall flag
+            ///// </summary>
+            //[Help("CookAll", "Cook all the things in the content directory for this project")]
+            //public bool CookAll;
+
+
+            string stagingDirectoryArg = "";
+            string stagingDirectory = StagingDirectoryTextBox.Text;
+            if (stagingDirectory != "Default" && stagingDirectory.Length > 0)
+            {
+                stagingDirectoryArg = $" -StagingDirectory=\"{stagingDirectory}\"";
+            }
+            retVal += stagingDirectoryArg;
 
 
             // -NoClient
@@ -464,6 +478,20 @@ namespace UnrealAutomationToolGUI
         {
             //stage = StageCheckBox.IsEnabled;
             stage = false;
+        }
+
+        private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Open folder browser dialog to select folder
+
+            CommonOpenFileDialog stagingDirectoryDialog = new CommonOpenFileDialog("Staging directory");
+            stagingDirectoryDialog.IsFolderPicker = true;
+
+
+            if (stagingDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
+            {
+                StagingDirectoryTextBox.Text = stagingDirectoryDialog.FileName;
+            }
         }
     }
 }
