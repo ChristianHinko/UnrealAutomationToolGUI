@@ -6,17 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UnrealAutomationToolGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Unreal Automation Tool GUI" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-
+        
         <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
         <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
         <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
@@ -25,32 +17,34 @@
         <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="104,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}">
         </ComboBox>
-
+        
         <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="720"/>
         <Label Content="Options" HorizontalAlignment="Right" Margin="0,93,10,0" VerticalAlignment="Top"/>
-
-        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
+        
+        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
         </ComboBox>
-        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="185,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
+        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
         </ComboBox>
-        <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="23,159,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked"/>
-        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
-
-        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="365,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked"/>
-        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="365,162,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked"/>
-        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="365,116,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
-        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="466,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default"/>
-
+        <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
+        
+        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="299,144,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked" IsChecked="True"/>
+        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="299,164,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked"/>
+        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="299,114,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
+        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="400,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center"/>
+        
+        <CheckBox x:Name="PakCheckBox" Content="Pak" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Checked="PakCheckBox_Checked" Unchecked="PakCheckBox_Unchecked" IsChecked="True"/>
+        
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="716,362,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
-        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="605,261,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked"/>
-        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="605,281,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked"/>
-        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="605,301,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked"/>
-
+        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="605,261,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="605,281,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="605,301,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
+        
         <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
         <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
-
+        
     </Grid>
 </Window>

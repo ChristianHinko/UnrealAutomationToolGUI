@@ -122,8 +122,12 @@ namespace UnrealAutomationToolGUI
         bool server { get; set; }
         bool noClient { get; set; }
 
+        string stagingDirectory { get; set; }
+
         bool stage { get; set; }
         bool skipStage { get; set; }
+
+        bool pak { get; set; }
 
         bool build { get; set; }
         bool cook { get; set; }
@@ -283,10 +287,7 @@ namespace UnrealAutomationToolGUI
                 // Run Unreal Automation Tool
 
                 string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs";
-                Dispatcher.Invoke(() =>
-                {
-                    uatArguments += BuildUATArguments();
-                });
+                uatArguments += BuildUATArguments();
 
                 uatProcess = new Process()
                 {
@@ -367,7 +368,7 @@ namespace UnrealAutomationToolGUI
             // -<Engine Type>
 
             string engineTypeArg = "";
-            switch ((EngineType)EngineTypeCombo.SelectedItem)
+            switch (engineType)
             {
                 case EngineType.TYPE_Rocket:
                     engineTypeArg = "Rocket";
@@ -386,7 +387,7 @@ namespace UnrealAutomationToolGUI
             // -ClientConfig=<Configuration> -ServerConfig=<Configuration>
 
             string buildConfigurationArg = "";
-            switch ((BuildConfiguration)BuildConfigurationCombo.SelectedItem)
+            switch (buildConfiguration)
             {
                 case BuildConfiguration.BUILD_Debug:
                     buildConfigurationArg = "Debug";
@@ -414,7 +415,7 @@ namespace UnrealAutomationToolGUI
             // -TargetPlatform=<Platform1>+<Platform2>
 
             string targetPlatformArg = "";
-            switch ((TargetPlatform)TargetPlatformCombo.SelectedItem) // TODO: THESE SHOULD BE CHECK BOXES ACTUALLY NOT COMBO BOX
+            switch (targetPlatform) // TODO: THESE SHOULD BE CHECK BOXES ACTUALLY NOT COMBO BOX
             {
                 case TargetPlatform.PLAT_Win32:
                     targetPlatformArg = "Win32";
@@ -471,7 +472,7 @@ namespace UnrealAutomationToolGUI
             // -Build
 
             string buildArg = "";
-            if (/*BuildCheckBox.IsEnabled */build)
+            if (build)
             {
                 buildArg = " -Build";
             }
@@ -481,7 +482,7 @@ namespace UnrealAutomationToolGUI
             // -Cook
 
             string cookArg = "";
-            if (/*CookCheckBox.IsEnabled */cook)
+            if (cook)
             {
                 // requires -Stage or -SkipStage
                 cookArg = " -Cook";
@@ -492,9 +493,8 @@ namespace UnrealAutomationToolGUI
             // -Package
 
             string packageArg = "";
-            if (/*PackageCheckBox.IsEnabled */package)
+            if (package)
             {
-                // -Pak
                 packageArg = " -Package";
             }
             retVal += packageArg;
@@ -503,7 +503,7 @@ namespace UnrealAutomationToolGUI
             // -Server
 
             string serverArg = "";
-            if (/*ServerCheckBox.IsEnabled */server)
+            if (server)
             {
                 serverArg = " -Server";
             }
@@ -513,7 +513,7 @@ namespace UnrealAutomationToolGUI
             // -NoClient
 
             string noClientArg = "";
-            if (/*NoClientCheckBox.IsEnabled */noClient)
+            if (noClient)
             {
                 noClientArg = " -NoClient";
             }
@@ -530,7 +530,7 @@ namespace UnrealAutomationToolGUI
             retVal += stageArg;
 
 
-            // -Stage
+            // -SkipStage
 
             string skipStageArg = "";
             if (skipStage)
@@ -543,12 +543,22 @@ namespace UnrealAutomationToolGUI
             // StagingDirectory=<Dir>
 
             string stagingDirectoryArg = "";
-            string stagingDirectory = StagingDirectoryTextBox.Text;
-            if (stagingDirectory != "Default" && stagingDirectory.Length > 0)
+            if (stagingDirectory != null && stagingDirectory.Length > 0)
             {
                 stagingDirectoryArg = $" -StagingDirectory=\"{stagingDirectory}\"";
             }
             retVal += stagingDirectoryArg;
+
+
+            // -Pak
+
+            string pakArg = "";
+            if (pak)
+            {
+                // requires -Package
+                pakArg = " -Pak";
+            }
+            retVal += pakArg;
 
 
 
@@ -606,23 +616,19 @@ namespace UnrealAutomationToolGUI
 
         private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //server = ServerCheckBox.IsEnabled;
             server = true;
         }
         private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            //server = ServerCheckBox.IsEnabled;
             server = false;
         }
 
         private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //noClient = NoClientCheckBox.IsEnabled;
             noClient = true;
         }
         private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            //noClient = NoClientCheckBox.IsEnabled;
             noClient = false;
         }
 
@@ -653,8 +659,20 @@ namespace UnrealAutomationToolGUI
 
             if (stagingDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                StagingDirectoryTextBox.Text = stagingDirectoryDialog.FileName;
+                string dir = stagingDirectoryDialog.FileName;
+
+                StagingDirectoryTextBox.Text = dir;
+                stagingDirectory = dir;
             }
+        }
+
+        private void PakCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            pak = true;
+        }
+        private void PakCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            pak = false;
         }
 
 
