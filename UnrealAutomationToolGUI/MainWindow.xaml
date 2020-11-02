@@ -16,23 +16,24 @@
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,30,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
-        <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
-        <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
-        <TextBox x:Name="UProjectPathTextBox" HorizontalAlignment="Left" Margin="104,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
-        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,248,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
-        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
-        <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="104,91,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}" SelectedIndex="0">
+        <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
+        <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
+        <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+        <TextBox x:Name="UProjectPathTextBox" HorizontalAlignment="Left" Margin="104,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,227,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
+        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="104,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}" SelectedIndex="1">
         </ComboBox>
-        <Label Content="Engine Type:" HorizontalAlignment="Right" Margin="0,89,701,0" VerticalAlignment="Top"/>
-        <Label Content="Settings" HorizontalAlignment="Left" Margin="737,114,0,0" VerticalAlignment="Top"/>
-        <Separator HorizontalAlignment="Left" Margin="0,120,0,0" VerticalAlignment="Top" Height="14" Width="737"/>
-        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,139,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
+        <Label Content="Engine Type:" HorizontalAlignment="Left" Margin="23,68,0,0" VerticalAlignment="Top"/>
+        <Label Content="Settings" HorizontalAlignment="Right" Margin="0,93,10,0" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="720"/>
+        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
         </ComboBox>
-        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="197,139,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
+        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="185,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
         </ComboBox>
+        <CheckBox x:Name="StageCheckBox" Content="Stage" HorizontalAlignment="Left" Margin="333,121,0,0" VerticalAlignment="Top" Checked="StageCheckBox_Checked" Unchecked="StageCheckBox_Unchecked" IsChecked="True"/>
     </Grid>
 </Window>

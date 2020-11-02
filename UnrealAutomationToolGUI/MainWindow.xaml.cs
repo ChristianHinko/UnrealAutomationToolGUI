@@ -105,6 +105,7 @@ namespace UnrealAutomationToolGUI
     /// Todo:
     ///     - Add argument buttons that add to args list for uatProcess
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
+    ///     - Add option to import .ini configuration
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -116,6 +117,8 @@ namespace UnrealAutomationToolGUI
         BuildConfiguration buildConfiguration { get; set; }
 
         TargetPlatform targetPlatform { get; set; }
+
+        bool stage;
 
         public MainWindow()
         {
@@ -236,7 +239,7 @@ namespace UnrealAutomationToolGUI
                 //                                                                      Run Unreal Automation Tool
 
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Pak -Prereqs -Package";
                 Dispatcher.Invoke(() =>
                 {
                     uatArguments += BuildUATArguments();
@@ -307,10 +310,10 @@ namespace UnrealAutomationToolGUI
                     engineTypeArg = "Rocket";
                     break;
                 case EngineType.TYPE_Source:
-                    engineTypeArg = "source";
+                    engineTypeArg = "Source";
                     break;
                 case EngineType.TYPE_Installed:
-                    //engineTypeArg = "source";      //TODO: TEMP idk what arg to use for this
+                    //engineTypeArg = "Source";      //TODO: TEMP idk what arg to use for this
                     break;
             }
             engineTypeArg = " -" + engineTypeArg;
@@ -398,6 +401,29 @@ namespace UnrealAutomationToolGUI
             retVal += targetPlatformArg;
 
 
+            string stageArg = "";
+            if (/*StageCheckBox.IsEnabled */stage)
+            {
+                stageArg = " -Stage";
+            }
+            else
+            {
+                stageArg = " -SkipStage";
+            }
+            retVal += stageArg;
+
+
+            //[Help("stagingdirectory=Path", "Directory to copy the builds to, i.e. -stagingdirectory=C:\\Stage")]
+            //public string StageDirectoryParam;
+
+
+
+            // -NoClient
+
+
+
+            // -Server
+
 
             return retVal;
         }
@@ -427,6 +453,17 @@ namespace UnrealAutomationToolGUI
         private void TargetPlatformCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             targetPlatform = (TargetPlatform)TargetPlatformCombo.SelectedItem;
+        }
+
+        private void StageCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            //stage = StageCheckBox.IsEnabled;
+            stage = true;
+        }
+        private void StageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //stage = StageCheckBox.IsEnabled;
+            stage = false;
         }
     }
 }
