@@ -123,6 +123,11 @@ namespace UnrealAutomationToolGUI
 
         bool noClient { get; set; }
 
+        bool build { get; set; }
+        bool cook { get; set; }
+        bool package { get; set; }
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -131,7 +136,7 @@ namespace UnrealAutomationToolGUI
             // Load user preferences
             EngineDirectoryTextBox.Text = Settings.Default.EngineDirectory;
             UProjectPathTextBox.Text = Settings.Default.UProjectPath;
-            EngineTypeCombo.SelectedIndex = Settings.Default.EngineType;
+            EngineTypeCombo.SelectedIndex = Settings.Default.EngineTypeIndex;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -175,12 +180,12 @@ namespace UnrealAutomationToolGUI
             engineType = (EngineType)EngineTypeCombo.SelectedItem;
 
             // Save this preference to user settings
-            Settings.Default.EngineType = EngineTypeCombo.SelectedIndex;
+            Settings.Default.EngineTypeIndex = EngineTypeCombo.SelectedIndex;
             Settings.Default.Save();
             Settings.Default.Reload();
         }
 
-        private void BuildBtn_Click(object sender, RoutedEventArgs e)
+        private void RunBtn_Click(object sender, RoutedEventArgs e)
         {
             // We clicked build, so at this point we know the user doesn't want to cancel build
             pendingProcessKill = false;
@@ -263,16 +268,19 @@ namespace UnrealAutomationToolGUI
 
             ubtProcess.Exited += (se, ev) =>
             {
+                ubtProcess.Dispose();
+                ubtProcess = null;
+
                 // Ensure the user wants us to start this process
                 if (pendingProcessKill)
                 {
                     return;
                 }
 
-                //                                                                      Run Unreal Automation Tool
 
+                // Run Unreal Automation Tool
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Cook -Build -Stage -Pak -Prereqs -Package";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs";
                 Dispatcher.Invoke(() =>
                 {
                     uatArguments += BuildUATArguments();
@@ -327,6 +335,12 @@ namespace UnrealAutomationToolGUI
                     // Read the process's output so we can display it in the text box
                     uatProcess.BeginOutputReadLine();
                 }
+
+                uatProcess.Exited += (se, ev) =>
+                {
+                    uatProcess.Dispose();
+                    uatProcess = null;
+                };
             };
         }
 
@@ -439,6 +453,38 @@ namespace UnrealAutomationToolGUI
             retVal += targetPlatformArg;
 
 
+            // -Build
+
+            string buildArg = "";
+            if (/*ServerCheckBox.IsEnabled */build)
+            {
+                buildArg = " -Build";
+            }
+            retVal += buildArg;
+
+
+            // -Cook
+
+            string cookArg = "";
+            if (/*ServerCheckBox.IsEnabled */cook)
+            {
+                // -Stage or -SkipStage
+                cookArg = " -Cook";
+            }
+            retVal += cookArg;
+
+
+            // -Package
+
+            string packageArg = "";
+            if (/*ServerCheckBox.IsEnabled */package)
+            {
+                // -Pak
+                packageArg = " -Package -Pak";
+            }
+            retVal += packageArg;
+
+
             // -Server
 
             string serverArg = "";
@@ -480,6 +526,8 @@ namespace UnrealAutomationToolGUI
 
 
 
+            //archive
+
 
             return retVal;
         }
@@ -492,6 +540,33 @@ namespace UnrealAutomationToolGUI
         private void TargetPlatformCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             targetPlatform = (TargetPlatform)TargetPlatformCombo.SelectedItem;
+        }
+
+        private void BuildCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            build = true;
+        }
+        private void BuildCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            build = false;
+        }
+
+        private void CookCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            cook = true;
+        }
+        private void CookCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cook = false;
+        }
+
+        private void PackageCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            package = true;
+        }
+        private void PackageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            package = false;
         }
 
         private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -543,13 +618,15 @@ namespace UnrealAutomationToolGUI
             if (ubtProcess != null)
             {
                 ubtProcess.Kill(true);
-                ubtProcess = null;
+                ubtProcess = null; // Ensure null
+
                 killedAProcess = true;
             }
             if (uatProcess != null)
             {
                 uatProcess.Kill(true);
-                uatProcess = null;
+                uatProcess = null; // Ensure null
+
                 killedAProcess = true;
             }
 

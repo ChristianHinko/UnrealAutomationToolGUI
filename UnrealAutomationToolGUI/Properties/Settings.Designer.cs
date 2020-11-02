@@ -50,12 +50,12 @@ namespace UnrealAutomationToolGUI.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int EngineType {
+        public int EngineTypeIndex {
             get {
-                return ((int)(this["EngineType"]));
+                return ((int)(this["EngineTypeIndex"]));
             }
             set {
-                this["EngineType"] = value;
+                this["EngineTypeIndex"] = value;
             }
         }
     }

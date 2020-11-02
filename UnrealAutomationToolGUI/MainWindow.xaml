@@ -16,30 +16,38 @@
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+
         <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
-        <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
         <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+        <Button x:Name="UProjectPathBtn" Content="Path to uproject" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Click="UProjectPathBtn_Click"/>
         <TextBox x:Name="UProjectPathTextBox" HorizontalAlignment="Left" Margin="104,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
-        <Button x:Name="BuildBtn" Content="Build" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="BuildBtn_Click" FontSize="18"/>
-        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <Label Content="Engine Type:" HorizontalAlignment="Left" Margin="23,68,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="EngineTypeCombo" HorizontalAlignment="Left" Margin="104,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EngineTypeCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}">
         </ComboBox>
-        <Label Content="Engine Type:" HorizontalAlignment="Left" Margin="23,68,0,0" VerticalAlignment="Top"/>
-        <Label Content="Options" HorizontalAlignment="Right" Margin="0,93,10,0" VerticalAlignment="Top"/>
+
         <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="720"/>
+        <Label Content="Options" HorizontalAlignment="Right" Margin="0,93,10,0" VerticalAlignment="Top"/>
+
         <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="22,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
         </ComboBox>
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="185,118,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
         </ComboBox>
-        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="23,159,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked"/>
+        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
 
         <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="365,174,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
         <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="466,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default"/>
-        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
+
+        <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="716,362,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
+        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="605,261,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked"/>
+        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="605,281,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked"/>
+        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="605,301,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked"/>
+
+        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
     </Grid>
 </Window>

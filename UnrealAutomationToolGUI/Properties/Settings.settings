@@ -8,7 +8,7 @@
     <Setting Name="UProjectPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="EngineType" Type="System.Int32" Scope="User">
+    <Setting Name="EngineTypeIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
