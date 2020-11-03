@@ -6,9 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UnrealAutomationToolGUI"
         mc:Ignorable="d"
-        Title="Unreal Automation Tool GUI" Height="450" Width="800" Background="White">
+        Title="Unreal Automation Tool GUI" Height="450" Width="800" Background="White"
+        MouseDown="Window_MouseDown"><!-- WindowStyle="None"-->
     <Grid x:Name="Grid">
+        <!--Rectangle HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF494949" Width="800" Height="20"/-->
+        <!--Image HorizontalAlignment="Left" Margin="750,0,0,0" VerticalAlignment="Top" Width="20" Height="20" Source="/X.png"/-->
         <Border BorderThickness="1" BorderBrush="Black"/>
+
 
         <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
         <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>

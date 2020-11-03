@@ -973,6 +973,12 @@ namespace UnrealAutomationToolGUI
         }
 
 
+        private void Window_MouseDown(object sender, RoutedEventArgs e)
+        {
+            App.Current.MainWindow.DragMove();
+        }
+
+
         private void OnApplicationEnd(object sender, CancelEventArgs e)
         {
             KillProcesses();

@@ -8,10 +8,17 @@
 
   <ItemGroup>
     <None Remove="MainWindow.xaml.cs~RF124d4b5d.TMP" />
+    <None Remove="StaticMeshComponent.png" />
+    <None Remove="X.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="StaticMeshComponent.png" />
+    <Resource Include="X.png" />
   </ItemGroup>
 
   <ItemGroup>
