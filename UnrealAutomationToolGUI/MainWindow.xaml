@@ -29,12 +29,7 @@
 
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
-            <ComboBox.Background>
-                <LinearGradientBrush EndPoint="0,1">
-                    <GradientStop Color="#FF4F2323"/>
-                    <GradientStop Color="#FFE43333" Offset="1"/>
-                </LinearGradientBrush>
-            </ComboBox.Background>
+            <!--Style = "{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"-->
         </ComboBox>
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>

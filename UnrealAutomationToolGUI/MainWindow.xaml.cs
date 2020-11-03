@@ -818,46 +818,58 @@ namespace UnrealAutomationToolGUI
 
 
             Application.Current.MainWindow.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
-            OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            SettingsRect.Fill = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            Application.Current.MainWindow.BorderBrush = new SolidColorBrush(Color.FromRgb(30, 30, 30));
 
+            OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+
+            SettingsRect.Fill = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            SettingsRect.Stroke = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+
+            foreach (TextBox textBox in Grid.Children.OfType<TextBox>())
+            {
+                //textBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                //textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                textBox.Foreground = logColor;
+            }
+            foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
+            {
+                //textBlock.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                //textBlock.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                textBlock.Foreground = logColor;
+            }
+            foreach (Label label in Grid.Children.OfType<Label>())
+            {
+                label.Foreground = logColor;
+            }
             foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
             {
                 checkBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                checkBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 checkBox.Foreground = logColor;
             }
             foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
             {
                 radioButton.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                radioButton.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 radioButton.Foreground = logColor;
             }
             foreach (Button button in Grid.Children.OfType<Button>())
             {
                 button.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                button.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 button.Foreground = logColor;
-
-                Style style = new Style(typeof(Button), button.Style);
-
-                Trigger trigger = new Trigger();
-                trigger.Property = Button.IsMouseOverProperty;
-                trigger.Value = true;
-                Setter setter = new Setter();
-                setter.Property = Button.BackgroundProperty;
-                setter.Value = Brushes.Red;
-                trigger.Setters.Add(setter);
-
-                button.Style = style;
-
-                //button.Style.Triggers.Add(trigger);
             }
             foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
             {
                 comboBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                comboBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 comboBox.Foreground = logColor;
 
-                comboBox.Resources.Add(SystemColors.WindowBrushKey, Color.FromRgb(62, 62, 64));
-                comboBox.Resources.Add(SystemColors.HighlightBrushKey, Brushes.Red);
+                comboBox.Style = (Style)FindResource(ToolBar.ComboBoxStyleKey);
+                comboBox.Resources.Add(SystemColors.WindowBrushKey, new SolidColorBrush(Color.FromRgb(62, 62, 62)));
             }
+
         }
         private void DarkThemeCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
