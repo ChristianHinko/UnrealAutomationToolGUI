@@ -164,6 +164,8 @@ namespace UnrealAutomationToolGUI
 
             engineType = (EngineType)Settings.Default.EngineTypeIndex;
             EngineTypeCombo.SelectedIndex = (int)engineType;
+
+            DarkThemeCheckBox.IsChecked = Settings.Default.DarkMode;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -814,14 +816,30 @@ namespace UnrealAutomationToolGUI
 
         private void DarkThemeCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            logColor = Brushes.LightGray;
+            Settings.Default.DarkMode = true;
+            Settings.Default.Save();
+            Settings.Default.Reload();
 
 
             Application.Current.MainWindow.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
             Application.Current.MainWindow.BorderBrush = new SolidColorBrush(Color.FromRgb(30, 30, 30));
 
+
+            Brush newLogColor = Brushes.LightGray;
+
             OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
             OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            //OutputRichTextBox.SelectionBrush = new SolidColorBrush(Color.FromArgb(150, 0, 200, 255));
+            foreach (Block block in OutputFlowDocument.Blocks)
+            {
+                if (block.Foreground == logColor)
+                {
+                    block.Foreground = newLogColor;
+                }
+            }
+            logColor = newLogColor;
+
+
 
             SettingsRect.Fill = new SolidColorBrush(Color.FromRgb(30, 30, 30));
             SettingsRect.Stroke = new SolidColorBrush(Color.FromRgb(45, 45, 48));
@@ -873,6 +891,11 @@ namespace UnrealAutomationToolGUI
 
                 button.Style = (Style)FindResource(ToolBar.ButtonStyleKey);
                 button.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
+
+                if (button == CancelBtn)
+                {
+                    button.Background = new SolidColorBrush(Color.FromRgb(124, 62, 64));
+                }
             }
             foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
             {
@@ -885,11 +908,24 @@ namespace UnrealAutomationToolGUI
                 comboBox.Resources.Add(SystemColors.ControlBrushKey, new SolidColorBrush(Color.FromRgb(30, 30, 30)));
                 comboBox.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
             }
-
         }
         private void DarkThemeCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            logColor = Brushes.Black;
+            Settings.Default.DarkMode = false;
+            Settings.Default.Save();
+            Settings.Default.Reload();
+
+
+            Brush newLogColor = Brushes.Black;
+
+            foreach (Block block in OutputFlowDocument.Blocks)
+            {
+                if (block.Foreground == logColor)
+                {
+                    block.Foreground = newLogColor;
+                }
+            }
+            logColor = newLogColor;
 
 
             Application.Current.MainWindow.Background = Brushes.White;
