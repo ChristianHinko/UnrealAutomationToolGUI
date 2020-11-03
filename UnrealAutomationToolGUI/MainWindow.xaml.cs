@@ -116,22 +116,23 @@ namespace UnrealAutomationToolGUI
         EngineType engineType { get; set; }
 
         BuildConfiguration buildConfiguration { get; set; }
-
         TargetPlatform targetPlatform { get; set; }
-
-        bool server { get; set; }
-        bool noClient { get; set; }
-
-        string stagingDirectory { get; set; }
-
-        bool stage { get; set; }
-        bool skipStage { get; set; }
-
-        bool pak { get; set; }
 
         bool build { get; set; }
         bool cook { get; set; }
         bool package { get; set; }
+
+        bool pak { get; set; }
+
+        bool stage { get; set; }
+        bool skipStage { get; set; }
+        string stagingDirectory { get; set; }
+
+        bool server { get; set; }
+        bool noClient { get; set; }
+
+        bool archive { get; set; }
+        string archiveDirectory { get; set; }
 
 
         public MainWindow()
@@ -286,7 +287,7 @@ namespace UnrealAutomationToolGUI
 
                 // Run Unreal Automation Tool
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs";
+                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs -Compile";
                 uatArguments += BuildUATArguments();
 
                 uatProcess = new Process()
@@ -366,7 +367,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -<Engine Type>
-
             string engineTypeArg = "";
             switch (engineType)
             {
@@ -385,7 +385,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -ClientConfig=<Configuration> -ServerConfig=<Configuration>
-
             string buildConfigurationArg = "";
             switch (buildConfiguration)
             {
@@ -413,7 +412,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -TargetPlatform=<Platform1>+<Platform2>
-
             string targetPlatformArg = "";
             switch (targetPlatform) // TODO: THESE SHOULD BE CHECK BOXES ACTUALLY NOT COMBO BOX
             {
@@ -470,7 +468,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -Build
-
             string buildArg = "";
             if (build)
             {
@@ -480,7 +477,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -Cook
-
             string cookArg = "";
             if (cook)
             {
@@ -491,7 +487,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -Package
-
             string packageArg = "";
             if (package)
             {
@@ -500,28 +495,17 @@ namespace UnrealAutomationToolGUI
             retVal += packageArg;
 
 
-            // -Server
-
-            string serverArg = "";
-            if (server)
+            // -Pak
+            string pakArg = "";
+            if (pak)
             {
-                serverArg = " -Server";
+                // requires -Stage or -SkipStage
+                pakArg = " -Pak";
             }
-            retVal += serverArg;
-
-
-            // -NoClient
-
-            string noClientArg = "";
-            if (noClient)
-            {
-                noClientArg = " -NoClient";
-            }
-            retVal += noClientArg;
+            retVal += pakArg;
 
 
             // -Stage
-
             string stageArg = "";
             if (stage)
             {
@@ -531,7 +515,6 @@ namespace UnrealAutomationToolGUI
 
 
             // -SkipStage
-
             string skipStageArg = "";
             if (skipStage)
             {
@@ -541,7 +524,6 @@ namespace UnrealAutomationToolGUI
 
 
             // StagingDirectory=<Dir>
-
             string stagingDirectoryArg = "";
             if (stagingDirectory != null && stagingDirectory.Length > 0)
             {
@@ -550,15 +532,41 @@ namespace UnrealAutomationToolGUI
             retVal += stagingDirectoryArg;
 
 
-            // -Pak
-
-            string pakArg = "";
-            if (pak)
+            // -Server
+            string serverArg = "";
+            if (server)
             {
-                // requires -Package
-                pakArg = " -Pak";
+                serverArg = " -Server";
             }
-            retVal += pakArg;
+            retVal += serverArg;
+
+
+            // -NoClient
+            string noClientArg = "";
+            if (noClient)
+            {
+                noClientArg = " -NoClient";
+            }
+            retVal += noClientArg;
+
+
+            // -Archive
+            string archiveArg = "";
+            if (archive)
+            {
+                archiveArg = " -Archive";
+            }
+            retVal += archiveArg;
+
+
+            // ArchiveDirectory=<Dir>
+            string archiveDirectoryArg = "";
+            if (archiveDirectory != null && archiveDirectory.Length > 0)
+            {
+                archiveDirectoryArg = $" -ArchiveDirectory=\"{archiveDirectory}\"";
+            }
+            retVal += archiveDirectoryArg;
+
 
 
 
@@ -570,8 +578,6 @@ namespace UnrealAutomationToolGUI
             //public bool CookAll;
 
 
-
-            //archive
 
 
             return retVal;
@@ -614,22 +620,13 @@ namespace UnrealAutomationToolGUI
             package = false;
         }
 
-        private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void PakCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            server = true;
+            pak = true;
         }
-        private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void PakCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            server = false;
-        }
-
-        private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            noClient = true;
-        }
-        private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            noClient = false;
+            pak = false;
         }
 
         private void StageRadioBtn_Checked(object sender, RoutedEventArgs e)
@@ -649,6 +646,24 @@ namespace UnrealAutomationToolGUI
             skipStage = false;
         }
 
+        private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            server = true;
+        }
+        private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            server = false;
+        }
+
+        private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            noClient = true;
+        }
+        private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            noClient = false;
+        }
+
         private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
             // Open folder browser dialog to select folder
@@ -666,13 +681,30 @@ namespace UnrealAutomationToolGUI
             }
         }
 
-        private void PakCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ArchiveCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            pak = true;
+            archive = true;
         }
-        private void PakCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ArchiveCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            pak = false;
+            archive = false;
+        }
+
+        private void ArchiveDirectoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Open folder browser dialog to select folder
+
+            CommonOpenFileDialog archiveDirectoryDialog = new CommonOpenFileDialog("Archive directory");
+            archiveDirectoryDialog.IsFolderPicker = true;
+
+
+            if (archiveDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
+            {
+                string dir = archiveDirectoryDialog.FileName;
+
+                ArchiveDirectoryTextBox.Text = dir;
+                archiveDirectory = dir;
+            }
         }
 
 
@@ -713,10 +745,11 @@ namespace UnrealAutomationToolGUI
                 OutputTextBox.Text += '\n';
                 OutputTextBox.Text += '\n';
                 OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
                 OutputTextBox.Text += "KILLED ALL PROCESSES";
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
                 OutputTextBox.ScrollToEnd();
             }
         }
