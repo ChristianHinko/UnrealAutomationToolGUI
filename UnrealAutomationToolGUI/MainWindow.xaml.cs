@@ -806,14 +806,25 @@ namespace UnrealAutomationToolGUI
         private void SettingsTextBlock_MouseEnter(object sender, RoutedEventArgs e)
         {
             SettingsRect.Visibility = Visibility.Visible;
+            SettingsMouseCoverage.Visibility = Visibility.Visible;
             DarkThemeCheckBox.Visibility = Visibility.Visible;
+            RightClickTip.Visibility = Visibility.Visible;
         }
         private void SettingsTextBlock_MouseLeave(object sender, RoutedEventArgs e)
         {
             SettingsRect.Visibility = Visibility.Hidden;
+            SettingsMouseCoverage.Visibility = Visibility.Hidden;
             DarkThemeCheckBox.Visibility = Visibility.Hidden;
+            RightClickTip.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// This dark mode is really broken but I don't care the only point of it is to make the output easier
+        /// to read. Switching between light and dark more than once breaks things and switching from dark to light requires
+        /// an app restart.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DarkThemeCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Settings.Default.DarkMode = true;
@@ -846,11 +857,11 @@ namespace UnrealAutomationToolGUI
 
             foreach (TextBox textBox in Grid.Children.OfType<TextBox>())
             {
+                //textBox.Style = (Style)FindResource(ToolBar.TextBoxStyleKey);
+
                 //textBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 //textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 textBox.Foreground = logColor;
-
-                //textBox.Style = (Style)FindResource(ToolBar.TextBoxStyleKey);
             }
             foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
             {
@@ -869,27 +880,28 @@ namespace UnrealAutomationToolGUI
             }
             foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
             {
+                //checkBox.Style = (Style)FindResource(ToolBar.CheckBoxStyleKey);
+
                 checkBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 checkBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 checkBox.Foreground = logColor;
-
-                //checkBox.Style = (Style)FindResource(ToolBar.CheckBoxStyleKey);
             }
             foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
             {
+                //radioButton.Style = (Style)FindResource(ToolBar.RadioButtonStyleKey);
+
                 radioButton.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 radioButton.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 radioButton.Foreground = logColor;
-
-                //radioButton.Style = (Style)FindResource(ToolBar.RadioButtonStyleKey);
             }
             foreach (Button button in Grid.Children.OfType<Button>())
             {
+                button.Style = (Style)FindResource(ToolBar.ButtonStyleKey);
+
                 button.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 button.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 button.Foreground = logColor;
 
-                button.Style = (Style)FindResource(ToolBar.ButtonStyleKey);
                 button.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
 
                 if (button == CancelBtn)
@@ -899,16 +911,22 @@ namespace UnrealAutomationToolGUI
             }
             foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
             {
-                comboBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                comboBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                comboBox.Style = (Style)FindResource(ToolBar.ComboBoxStyleKey);
+
+                comboBox.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                comboBox.BorderBrush = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 comboBox.Foreground = logColor;
 
-                comboBox.Style = (Style)FindResource(ToolBar.ComboBoxStyleKey);
-                comboBox.Resources.Add(SystemColors.WindowBrushKey, new SolidColorBrush(Color.FromRgb(62, 62, 62)));
-                comboBox.Resources.Add(SystemColors.ControlBrushKey, new SolidColorBrush(Color.FromRgb(30, 30, 30)));
                 comboBox.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
             }
         }
+        /// <summary>
+        /// Going from dark to light theme requires an app restart because this function doesn't even undo everything the
+        /// dark theme function did. The reason I'm not fixing dark->light theme is because dark is just better and no one is
+        /// going to use light.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DarkThemeCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             Settings.Default.DarkMode = false;

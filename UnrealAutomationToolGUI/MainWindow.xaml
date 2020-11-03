@@ -30,7 +30,7 @@
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
             <!--Style = "{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"-->
-            
+
         </ComboBox>
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
@@ -63,13 +63,15 @@
         </RichTextBox>
         <Label x:Name="MessageOnProcesses" Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
-        <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="726,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave"/>
-        <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="344,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" Visibility="Hidden" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave">
+        <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="726,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter"/>
+        <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="344,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden">
             <Rectangle.Fill>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Rectangle.Fill>
         </Rectangle>
-        <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="355,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" Visibility="Hidden" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave"/>
+        <Rectangle x:Name="SettingsMouseCoverage" HorizontalAlignment="Left" Height="235" Margin="335,6,0,0" VerticalAlignment="Top" Width="443" Visibility="Hidden" MouseLeave="SettingsTextBlock_MouseLeave" Fill="#00341F1F"/>
+        <Label x:Name="RightClickTip" Content="Tip: some params can be reset by right clicking them" HorizontalAlignment="Left" Margin="527,208,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="355,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
 
     </Grid>
 </Window>
