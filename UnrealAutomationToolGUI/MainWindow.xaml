@@ -6,8 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UnrealAutomationToolGUI"
         mc:Ignorable="d"
-        Title="Unreal Automation Tool GUI" Height="450" Width="800">
-    <Grid>
+        Title="Unreal Automation Tool GUI" Height="450" Width="800" Background="White">
+    <Grid x:Name="Grid">
+        <Border BorderThickness="1" BorderBrush="Black"/>
 
         <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
         <TextBox x:Name="EngineDirectoryTextBox" HorizontalAlignment="Left" Margin="104,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="651" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
@@ -27,7 +28,13 @@
         <CheckBox x:Name="PakCheckBox" Content="Pak" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Checked="PakCheckBox_Checked" Unchecked="PakCheckBox_Unchecked" IsChecked="True"/>
 
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1">
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FF4F2323"/>
+                    <GradientStop Color="#FFE43333" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
         </ComboBox>
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
@@ -54,13 +61,18 @@
                 </Style>
             </RichTextBox.Resources>
             <FlowDocument x:Name="OutputFlowDocument">
-                
+
             </FlowDocument>
         </RichTextBox>
-        <!--TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/-->
-        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
+        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
-        <!--TextBlock x:Name="TipsTextBlock" HorizontalAlignment="Left" Margin="753,6,0,0" Text="Tips" TextWrapping="Wrap" VerticalAlignment="Top" Background="#1900FF68" MouseEnter="TipsTextBlock_MouseEnter" MouseLeave="TipsTextBlock_MouseLeave"/-->
+        <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="726,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave"/>
+        <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="344,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" Visibility="Hidden" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="355,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" Visibility="Hidden" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave"/>
 
     </Grid>
 </Window>

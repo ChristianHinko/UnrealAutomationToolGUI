@@ -801,6 +801,96 @@ namespace UnrealAutomationToolGUI
         }
 
 
+        private void SettingsTextBlock_MouseEnter(object sender, RoutedEventArgs e)
+        {
+            SettingsRect.Visibility = Visibility.Visible;
+            DarkThemeCheckBox.Visibility = Visibility.Visible;
+        }
+        private void SettingsTextBlock_MouseLeave(object sender, RoutedEventArgs e)
+        {
+            SettingsRect.Visibility = Visibility.Hidden;
+            DarkThemeCheckBox.Visibility = Visibility.Hidden;
+        }
+
+        private void DarkThemeCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            logColor = Brushes.LightGray;
+
+
+            Application.Current.MainWindow.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            SettingsRect.Fill = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+
+            foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
+            {
+                checkBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                checkBox.Foreground = logColor;
+            }
+            foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
+            {
+                radioButton.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                radioButton.Foreground = logColor;
+            }
+            foreach (Button button in Grid.Children.OfType<Button>())
+            {
+                button.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                button.Foreground = logColor;
+
+                Style style = new Style(typeof(Button), button.Style);
+
+                Trigger trigger = new Trigger();
+                trigger.Property = Button.IsMouseOverProperty;
+                trigger.Value = true;
+                Setter setter = new Setter();
+                setter.Property = Button.BackgroundProperty;
+                setter.Value = Brushes.Red;
+                trigger.Setters.Add(setter);
+
+                button.Style = style;
+
+                //button.Style.Triggers.Add(trigger);
+            }
+            foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
+            {
+                comboBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                comboBox.Foreground = logColor;
+
+                comboBox.Resources.Add(SystemColors.WindowBrushKey, Color.FromRgb(62, 62, 64));
+                comboBox.Resources.Add(SystemColors.HighlightBrushKey, Brushes.Red);
+            }
+        }
+        private void DarkThemeCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            logColor = Brushes.Black;
+
+
+            Application.Current.MainWindow.Background = Brushes.White;
+            OutputRichTextBox.Background = Brushes.White;
+            SettingsRect.Fill = Brushes.White;
+
+            foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
+            {
+                checkBox.Background = Brushes.White;
+                checkBox.Foreground = logColor;
+            }
+            foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
+            {
+                radioButton.Background = Brushes.White;
+                radioButton.Foreground = logColor;
+            }
+            foreach (Button button in Grid.Children.OfType<Button>())
+            {
+                button.Background = Brushes.White;
+                button.Foreground = logColor;
+            }
+            foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
+            {
+                comboBox.Background = Brushes.White;
+                comboBox.Foreground = logColor;
+            }
+        }
+
+
         private void OnApplicationEnd(object sender, CancelEventArgs e)
         {
             KillProcesses();
