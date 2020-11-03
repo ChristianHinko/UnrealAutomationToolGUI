@@ -30,6 +30,7 @@
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
             <!--Style = "{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"-->
+            
         </ComboBox>
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
@@ -37,6 +38,7 @@
         <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="281,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked" IsChecked="True" PreviewMouseRightButtonDown="ResetStage"/>
         <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="281,165,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked" PreviewMouseRightButtonDown="ResetStage"/>
         <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="281,115,0,0" VerticalAlignment="Top" Height="25" Click="StagingDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
+        <!--Style = "{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/-->
         <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="382,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
 
         <CheckBox x:Name="ArchiveCheckBox" Content="Archive" HorizontalAlignment="Left" Margin="696,139,0,0" VerticalAlignment="Top" Checked="ArchiveCheckBox_Checked" Unchecked="ArchiveCheckBox_Unchecked" FlowDirection="RightToLeft"/>
@@ -59,7 +61,7 @@
 
             </FlowDocument>
         </RichTextBox>
-        <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Foreground="Red"/>
+        <Label x:Name="MessageOnProcesses" Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
         <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="726,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave"/>
         <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="344,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" Visibility="Hidden" MouseEnter="SettingsTextBlock_MouseEnter" MouseLeave="SettingsTextBlock_MouseLeave">

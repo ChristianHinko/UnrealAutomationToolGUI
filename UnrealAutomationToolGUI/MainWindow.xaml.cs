@@ -831,6 +831,8 @@ namespace UnrealAutomationToolGUI
                 //textBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 //textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 textBox.Foreground = logColor;
+
+                //textBox.Style = (Style)FindResource(ToolBar.TextBoxStyleKey);
             }
             foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
             {
@@ -840,6 +842,11 @@ namespace UnrealAutomationToolGUI
             }
             foreach (Label label in Grid.Children.OfType<Label>())
             {
+                if (label == MessageOnProcesses)
+                {
+                    continue;
+                }
+
                 label.Foreground = logColor;
             }
             foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
@@ -847,18 +854,25 @@ namespace UnrealAutomationToolGUI
                 checkBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 checkBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 checkBox.Foreground = logColor;
+
+                //checkBox.Style = (Style)FindResource(ToolBar.CheckBoxStyleKey);
             }
             foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
             {
                 radioButton.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 radioButton.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 radioButton.Foreground = logColor;
+
+                //radioButton.Style = (Style)FindResource(ToolBar.RadioButtonStyleKey);
             }
             foreach (Button button in Grid.Children.OfType<Button>())
             {
                 button.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
                 button.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
                 button.Foreground = logColor;
+
+                button.Style = (Style)FindResource(ToolBar.ButtonStyleKey);
+                button.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
             }
             foreach (ComboBox comboBox in Grid.Children.OfType<ComboBox>())
             {
@@ -868,6 +882,8 @@ namespace UnrealAutomationToolGUI
 
                 comboBox.Style = (Style)FindResource(ToolBar.ComboBoxStyleKey);
                 comboBox.Resources.Add(SystemColors.WindowBrushKey, new SolidColorBrush(Color.FromRgb(62, 62, 62)));
+                comboBox.Resources.Add(SystemColors.ControlBrushKey, new SolidColorBrush(Color.FromRgb(30, 30, 30)));
+                comboBox.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
             }
 
         }
