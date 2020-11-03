@@ -32,14 +32,14 @@
         <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
 
-        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="281,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked" IsChecked="True"/>
-        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="281,165,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked"/>
-        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="281,115,0,0" VerticalAlignment="Top" Click="StagingDirectoryBtn_Click" Height="25"/>
-        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="382,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center"/>
+        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="281,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked" IsChecked="True" PreviewMouseRightButtonDown="ResetStage"/>
+        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="281,165,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked" PreviewMouseRightButtonDown="ResetStage"/>
+        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="281,115,0,0" VerticalAlignment="Top" Height="25" Click="StagingDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
+        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="382,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
 
         <CheckBox x:Name="ArchiveCheckBox" Content="Archive" HorizontalAlignment="Left" Margin="696,139,0,0" VerticalAlignment="Top" Checked="ArchiveCheckBox_Checked" Unchecked="ArchiveCheckBox_Unchecked" FlowDirection="RightToLeft"/>
-        <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="661,159,0,0" VerticalAlignment="Top" Click="ArchiveDirectoryBtn_Click" Height="24"/>
-        <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+        <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="661,159,0,0" VerticalAlignment="Top" Height="24" Click="ArchiveDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
+        <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
 
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="716,362,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
@@ -49,6 +49,7 @@
 
         <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
         <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
+        <!--TextBlock x:Name="TipsTextBlock" HorizontalAlignment="Left" Margin="753,6,0,0" Text="Tips" TextWrapping="Wrap" VerticalAlignment="Top" Background="#1900FF68" MouseEnter="TipsTextBlock_MouseEnter" MouseLeave="TipsTextBlock_MouseLeave"/-->
 
     </Grid>
 </Window>

@@ -113,6 +113,8 @@ namespace UnrealAutomationToolGUI
         Process uatProcess;
         bool pendingProcessKill;
 
+        string engineDirectory { get; set; }
+        string uProjectPath { get; set; }
         EngineType engineType { get; set; }
 
         BuildConfiguration buildConfiguration { get; set; }
@@ -141,9 +143,15 @@ namespace UnrealAutomationToolGUI
 
 
             // Load user preferences
-            EngineDirectoryTextBox.Text = Settings.Default.EngineDirectory;
-            UProjectPathTextBox.Text = Settings.Default.UProjectPath;
-            EngineTypeCombo.SelectedIndex = Settings.Default.EngineTypeIndex;
+
+            engineDirectory = Settings.Default.EngineDirectory;
+            EngineDirectoryTextBox.Text = engineDirectory;
+
+            uProjectPath = Settings.Default.UProjectPath;
+            UProjectPathTextBox.Text = uProjectPath;
+
+            engineType = (EngineType)Settings.Default.EngineTypeIndex;
+            EngineTypeCombo.SelectedIndex = (int)engineType;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -156,10 +164,11 @@ namespace UnrealAutomationToolGUI
 
             if (engineDirectoryDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                EngineDirectoryTextBox.Text = engineDirectoryDialog.FileName;
+                engineDirectory = engineDirectoryDialog.FileName;
+                EngineDirectoryTextBox.Text = engineDirectory;
 
                 // Save this preference to user settings
-                Settings.Default.EngineDirectory = EngineDirectoryTextBox.Text;
+                Settings.Default.EngineDirectory = engineDirectory;
                 Settings.Default.Save();
                 Settings.Default.Reload();
             }
@@ -174,10 +183,11 @@ namespace UnrealAutomationToolGUI
 
             if (uprojectFolderDialog.ShowDialog().Equals(CommonFileDialogResult.Ok))
             {
-                UProjectPathTextBox.Text = uprojectFolderDialog.FileName;
+                uProjectPath = uprojectFolderDialog.FileName;
+                UProjectPathTextBox.Text = uProjectPath;
 
                 // Save this preference to user settings
-                Settings.Default.UProjectPath = UProjectPathTextBox.Text;
+                Settings.Default.UProjectPath = uProjectPath;
                 Settings.Default.Save();
                 Settings.Default.Reload();
             }
@@ -187,7 +197,7 @@ namespace UnrealAutomationToolGUI
             engineType = (EngineType)EngineTypeCombo.SelectedItem;
 
             // Save this preference to user settings
-            Settings.Default.EngineTypeIndex = EngineTypeCombo.SelectedIndex;
+            Settings.Default.EngineTypeIndex = (int)engineType;
             Settings.Default.Save();
             Settings.Default.Reload();
         }
@@ -198,17 +208,11 @@ namespace UnrealAutomationToolGUI
             pendingProcessKill = false;
 
 
-            // The directory that holds the engine
-            string engineDirectory = EngineDirectoryTextBox.Text;
-
-            // The path to the .uproject
-            string uprojectPath = UProjectPathTextBox.Text;
-
             // The directory that the uproject is in
-            string uprojectDirectory = uprojectPath.Remove(uprojectPath.LastIndexOf('\\'));
+            string uprojectDirectory = uProjectPath.Remove(uProjectPath.LastIndexOf('\\'));
 
             // The name of the uproject (excluding the ".uproject")
-            string uprojectName = uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).Remove(0, uprojectPath.Remove(uprojectPath.LastIndexOf(".uproject")).LastIndexOf('\\') + 1);
+            string uprojectName = uProjectPath.Remove(uProjectPath.LastIndexOf(".uproject")).Remove(0, uProjectPath.Remove(uProjectPath.LastIndexOf(".uproject")).LastIndexOf('\\') + 1);
 
             // The name of this project's editor
             string editorName = uprojectName + "Editor";
@@ -221,7 +225,7 @@ namespace UnrealAutomationToolGUI
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = $"{engineDirectory}\\Engine\\Build\\BatchFiles\\Build.bat",
-                    Arguments = $"{editorName} Win64 Development \"{uprojectPath}\" -WaitMutex",
+                    Arguments = $"{editorName} Win64 Development \"{uProjectPath}\" -WaitMutex",
                     //Arguments = $"\"uprojectPath\" \"{uprojectDirectory}\\Intermediate\\Build\\Win64\\{editorName}\\DebugGame\\{editorName}.uhtmanifest\" -LogCmds=\"loginit warning, logexit warning, logdatabase error\" -Unattended -WarningsAsErrors -abslog=\"{engineDirectory}\\Engine\\Programs\\UnrealBuildTool\\Log_UHT.txt\"", // i forgot what this was from
                     //Arguments = $"-Target=\"{editorName} Win64 DebugGame - Project =\"{uprojectPath}\"\" - Target = \"ShaderCompileWorker Win64 Development -Quiet\" - WaitMutex - FromMsBuild", // What VS runs
                     CreateNoWindow = true
@@ -287,7 +291,7 @@ namespace UnrealAutomationToolGUI
 
                 // Run Unreal Automation Tool
 
-                string uatArguments = $"BuildCookRun -Project=\"{uprojectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs -Compile";
+                string uatArguments = $"BuildCookRun -Project=\"{uProjectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs -Compile";
                 uatArguments += BuildUATArguments();
 
                 uatProcess = new Process()
@@ -646,22 +650,14 @@ namespace UnrealAutomationToolGUI
             skipStage = false;
         }
 
-        private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ResetStage(object sender, RoutedEventArgs e)
         {
-            server = true;
-        }
-        private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            server = false;
-        }
+            // Reset this option
 
-        private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            noClient = true;
-        }
-        private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            noClient = false;
+            stage = false;
+            skipStage = false;
+            StageRadioBtn.IsChecked = false;
+            SkipStageRadioBtn.IsChecked = false;
         }
 
         private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -679,6 +675,31 @@ namespace UnrealAutomationToolGUI
                 StagingDirectoryTextBox.Text = dir;
                 stagingDirectory = dir;
             }
+        }
+        private void ResetStagingDirectory(object sender, RoutedEventArgs e)
+        {
+            // Reset this option
+
+            stagingDirectory = null;
+            StagingDirectoryTextBox.Text = "Default";
+        }
+
+        private void ServerCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            server = true;
+        }
+        private void ServerCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            server = false;
+        }
+
+        private void NoClientCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            noClient = true;
+        }
+        private void NoClientCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            noClient = false;
         }
 
         private void ArchiveCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -704,6 +725,32 @@ namespace UnrealAutomationToolGUI
 
                 ArchiveDirectoryTextBox.Text = dir;
                 archiveDirectory = dir;
+            }
+        }
+        private void ResetArchiveDirectory(object sender, RoutedEventArgs e)
+        {
+            // Reset this option
+
+            archiveDirectory = null;
+            ArchiveDirectoryTextBox.Text = "Default";
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            pendingProcessKill = true;
+            if (KillProcesses())
+            {
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += "KILLED ALL PROCESSES";
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.Text += '\n';
+                OutputTextBox.ScrollToEnd();
             }
         }
 
@@ -733,25 +780,6 @@ namespace UnrealAutomationToolGUI
             }
 
             return killedAProcess;
-        }
-
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            pendingProcessKill = true;
-            if (KillProcesses())
-            {
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += "KILLED ALL PROCESSES";
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.ScrollToEnd();
-            }
         }
     }
 }
