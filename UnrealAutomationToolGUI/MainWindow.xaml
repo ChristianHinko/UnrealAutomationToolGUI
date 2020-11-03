@@ -47,8 +47,19 @@
         <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="605,281,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
         <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="605,301,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
 
-        <TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/>
+        <RichTextBox x:Name="OutputRichTextBox"  HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument x:Name="OutputFlowDocument">
+                
+            </FlowDocument>
+        </RichTextBox>
+        <!--TextBox x:Name="OutputTextBox" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="590" IsReadOnly="True" VerticalContentAlignment="Bottom"/-->
         <Label Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,382,0,0" VerticalAlignment="Top" Background="White" Foreground="Red"/>
+
         <!--TextBlock x:Name="TipsTextBlock" HorizontalAlignment="Left" Margin="753,6,0,0" Text="Tips" TextWrapping="Wrap" VerticalAlignment="Top" Background="#1900FF68" MouseEnter="TipsTextBlock_MouseEnter" MouseLeave="TipsTextBlock_MouseLeave"/-->
 
     </Grid>

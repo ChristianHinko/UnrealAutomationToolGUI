@@ -113,6 +113,18 @@ namespace UnrealAutomationToolGUI
         Process uatProcess;
         bool pendingProcessKill;
 
+        int timesRun = 0;
+
+        Brush logColor = Brushes.Black;
+        Brush warningColor = Brushes.Yellow;
+        Brush errorColor = Brushes.Red;
+        Brush goodColor = Brushes.LawnGreen;
+
+
+
+
+
+
         string engineDirectory { get; set; }
         string uProjectPath { get; set; }
         EngineType engineType { get; set; }
@@ -204,8 +216,21 @@ namespace UnrealAutomationToolGUI
 
         private void RunBtn_Click(object sender, RoutedEventArgs e)
         {
+            // Keep track of how many times we've ran
+            ++timesRun;
+
             // We clicked build, so at this point we know the user doesn't want to cancel build
             pendingProcessKill = false;
+
+            // Output this run's header
+            Paragraph paragraph = new Paragraph()
+            {
+                Foreground = Brushes.Magenta
+            };
+            paragraph.Inlines.Add(new Run($"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RUN {timesRun} ~~~~~~~~~~~~~~~~~~~"));
+            OutputFlowDocument.Blocks.Add(paragraph);
+            OutputRichTextBox.ScrollToEnd();
+
 
 
             // The directory that the uproject is in
@@ -218,7 +243,7 @@ namespace UnrealAutomationToolGUI
             string editorName = uprojectName + "Editor";
 
 
-            //                                                                          Run Unreal Build Tool
+            // Run Unreal Build Tool
 
             ubtProcess = new Process()
             {
@@ -237,31 +262,50 @@ namespace UnrealAutomationToolGUI
             ubtProcess.StartInfo.RedirectStandardOutput = true;
             ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
-                OutputTextBox.Text += args.Data + '\n';
+                string output = args.Data;
+                if (output != null)
+                {
+                    Paragraph paragraph = new Paragraph();
 
-                //Paragraph goodParagraph = new Paragraph()
-                //{
-                //    Foreground = Brushes.Black
-                //};
-                //goodParagraph.Inlines.Add(new Run(args.Data + '\n'));
-                //
-                //OutputFlowDocument.Blocks.Add(goodParagraph);
+                    if (output.Contains("ERROR: ", StringComparison.OrdinalIgnoreCase) || output.Contains("FAILED"))
+                    {
+                        paragraph.Foreground = errorColor;
+                    }
+                    else if (output.Contains("WARNING: ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        paragraph.Foreground = warningColor;
+                    }
+                    else if (output.Contains("SUCCESSFUL")/* || output.Contains("COMPLETED")*/)
+                    {
+                        paragraph.Foreground = goodColor;
+                    }
+                    else
+                    {
+                        paragraph.Foreground = logColor;
+                    }
 
-                OutputTextBox.ScrollToEnd();
+                    // Print the output
+                    paragraph.Inlines.Add(new Run(output));
+                    OutputFlowDocument.Blocks.Add(paragraph);
+
+                    OutputRichTextBox.ScrollToEnd();
+                }
             });
             ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
             {
-                OutputTextBox.Text += args.Data + '\n';
+                string output = args.Data;
+                if (output != null)
+                {
+                    Paragraph paragraph = new Paragraph();
 
-                //Paragraph errorParagraph = new Paragraph()
-                //{
-                //    Foreground = Brushes.OrangeRed
-                //};
-                //errorParagraph.Inlines.Add(new Run(args.Data + '\n'));
-                //
-                //OutputFlowDocument.Blocks.Add(errorParagraph);
+                    paragraph.Foreground = errorColor;
 
-                OutputTextBox.ScrollToEnd();
+                    // Print the output
+                    paragraph.Inlines.Add(new Run(output));
+                    OutputFlowDocument.Blocks.Add(paragraph);
+
+                    OutputRichTextBox.ScrollToEnd();
+                }
             });
 
             // Ensure the user wants us to start this process
@@ -310,44 +354,50 @@ namespace UnrealAutomationToolGUI
                 uatProcess.StartInfo.RedirectStandardOutput = true;
                 uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
                 {
-                    OutputTextBox.Text += args.Data + '\n';
+                    string output = args.Data;
+                    if (output != null)
+                    {
+                        Paragraph paragraph = new Paragraph();
 
-                    Paragraph paragraph = new Paragraph();
+                        if (output.Contains("ERROR: ", StringComparison.OrdinalIgnoreCase) || output.Contains("FAILED"))
+                        {
+                            paragraph.Foreground = errorColor;
+                        }
+                        else if (output.Contains("WARNING: ", StringComparison.OrdinalIgnoreCase))
+                        {
+                            paragraph.Foreground = warningColor;
+                        }
+                        else if (output.Contains("SUCCESSFUL")/* || output.Contains("COMPLETED")*/)
+                        {
+                            paragraph.Foreground = goodColor;
+                        }
+                        else
+                        {
+                            paragraph.Foreground = logColor;
+                        }
 
-                    //if (args.Data.Contains("ERROR: "))
-                    //{
-                    //    // Error color
-                    //    paragraph.Foreground = Brushes.Red;
-                    //}
-                    //else if (args.Data.Contains("WARNING: "))
-                    //{
-                    //    // Warning color
-                    //    paragraph.Foreground = Brushes.Yellow;
-                    //}
-                    //else
-                    //{
-                    //    // Normal color
-                    //    paragraph.Foreground = Brushes.Black;
-                    //}
-                    //
-                    //paragraph.Inlines.Add(new Run(args.Data + '\n'));
-                    //OutputFlowDocument.Blocks.Add(paragraph);
+                        // Print the output
+                        paragraph.Inlines.Add(new Run(output));
+                        OutputFlowDocument.Blocks.Add(paragraph);
 
-                    OutputTextBox.ScrollToEnd();
+                        OutputRichTextBox.ScrollToEnd();
+                    }
                 });
                 uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
                 {
-                    OutputTextBox.Text += args.Data + '\n';
+                    string output = args.Data;
+                    if (output != null)
+                    {
+                        Paragraph paragraph = new Paragraph();
 
-                    //Paragraph paragraph = new Paragraph();
-                    //
-                    //// Error color
-                    //paragraph.Foreground = Brushes.Red;
-                    //
-                    //paragraph.Inlines.Add(new Run(args.Data + '\n'));
-                    //OutputFlowDocument.Blocks.Add(paragraph);
+                        paragraph.Foreground = errorColor;
 
-                    OutputTextBox.ScrollToEnd();
+                        // Print the output
+                        paragraph.Inlines.Add(new Run(output));
+                        OutputFlowDocument.Blocks.Add(paragraph);
+
+                        OutputRichTextBox.ScrollToEnd();
+                    }
                 });
 
                 // Start the process
@@ -740,17 +790,13 @@ namespace UnrealAutomationToolGUI
             pendingProcessKill = true;
             if (KillProcesses())
             {
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += "KILLED ALL PROCESSES";
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.Text += '\n';
-                OutputTextBox.ScrollToEnd();
+                Paragraph paragraph = new Paragraph()
+                {
+                    Foreground = Brushes.Magenta
+                };
+                paragraph.Inlines.Add(new Run("KILLED ALL PROCESSES"));
+                OutputFlowDocument.Blocks.Add(paragraph);
+                OutputRichTextBox.ScrollToEnd();
             }
         }
 
