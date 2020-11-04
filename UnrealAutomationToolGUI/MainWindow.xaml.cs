@@ -106,6 +106,7 @@ namespace UnrealAutomationToolGUI
     ///     - Add argument buttons that add to args list for uatProcess
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
     ///     - Add option to import .ini configuration
+    ///     - Fix Light-Dark mode switching
     ///     - Add a way to package incremental packages (patch updates)
     /// </summary>
     public partial class MainWindow : Window
@@ -338,7 +339,7 @@ namespace UnrealAutomationToolGUI
 
                 // Run Unreal Automation Tool
 
-                string uatArguments = $"BuildCookRun -Project=\"{uProjectPath}\" -NoP4 -NoCompileEditor -Distribution -Platform=Win64 -Prereqs -Compile";
+                string uatArguments = $"BuildCookRun -Platform=Win64 -Project=\"{uProjectPath}\" -Compile -NoCompileEditor -NoP4";
                 uatArguments += BuildUATArguments();
 
                 uatProcess = new Process()
@@ -547,7 +548,7 @@ namespace UnrealAutomationToolGUI
             string packageArg = "";
             if (package)
             {
-                packageArg = " -Package";
+                packageArg = " -Package -Distribution -Prereqs";
             }
             retVal += packageArg;
 
@@ -633,6 +634,16 @@ namespace UnrealAutomationToolGUI
             ///// </summary>
             //[Help("CookAll", "Cook all the things in the content directory for this project")]
             //public bool CookAll;
+
+
+
+
+            ////// <summary>
+            ////// Are we generating a patch, generate a patch from a previously released version of the game (use CreateReleaseVersion to create a release). 
+            ////// this requires BasedOnReleaseVersion
+            ////// see also CreateReleaseVersion, BasedOnReleaseVersion
+            ////// </summary>
+            //public bool GeneratePatch;
 
 
 
@@ -923,8 +934,7 @@ namespace UnrealAutomationToolGUI
         }
         /// <summary>
         /// Going from dark to light theme requires an app restart because this function doesn't even undo everything the
-        /// dark theme function did. The reason I'm not fixing dark->light theme is because dark is just better and no one is
-        /// going to use light.
+        /// dark theme function did.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

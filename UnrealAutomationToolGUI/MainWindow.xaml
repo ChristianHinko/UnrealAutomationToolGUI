@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:UnrealAutomationToolGUI"
         mc:Ignorable="d"
         Title="Unreal Automation Tool GUI" Height="450" Width="800" Background="White"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"><!-- WindowStyle="None"-->
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <!-- WindowStyle="None"-->
     <Grid x:Name="Grid">
         <!--Rectangle HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF494949" Width="800" Height="20"/-->
         <!--Image HorizontalAlignment="Left" Margin="750,0,0,0" VerticalAlignment="Top" Width="20" Height="20" Source="/X.png"/-->
@@ -24,7 +25,7 @@
         </ComboBox>
 
         <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="720"/>
-        <Label Content="Options" HorizontalAlignment="Right" Margin="0,93,10,0" VerticalAlignment="Top"/>
+        <Label Content="Options" HorizontalAlignment="Left" Margin="726,93,0,0" VerticalAlignment="Top"/>
 
         <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
