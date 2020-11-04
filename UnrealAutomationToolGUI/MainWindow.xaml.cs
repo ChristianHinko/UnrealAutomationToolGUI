@@ -106,6 +106,7 @@ namespace UnrealAutomationToolGUI
     ///     - Add argument buttons that add to args list for uatProcess
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
     ///     - Add option to import .ini configuration
+    ///     - Add a way to package incremental packages (patch updates)
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -973,7 +974,7 @@ namespace UnrealAutomationToolGUI
         }
 
 
-        private void Window_MouseDown(object sender, RoutedEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             App.Current.MainWindow.DragMove();
         }
