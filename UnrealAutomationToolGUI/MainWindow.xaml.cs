@@ -265,9 +265,9 @@ namespace UnrealAutomationToolGUI
 
             ubtProcess.StartInfo.UseShellExecute = false;
             ubtProcess.StartInfo.RedirectStandardOutput = true;
-            ubtProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            ubtProcess.OutputDataReceived += (sender, e) => Dispatcher.Invoke(() =>
             {
-                string output = args.Data;
+                string output = e.Data;
                 if (output != null)
                 {
                     Paragraph paragraph = new Paragraph();
@@ -296,9 +296,9 @@ namespace UnrealAutomationToolGUI
                     OutputRichTextBox.ScrollToEnd();
                 }
             });
-            ubtProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
+            ubtProcess.ErrorDataReceived += (sender, e) => Dispatcher.Invoke(() =>
             {
-                string output = args.Data;
+                string output = e.Data;
                 if (output != null)
                 {
                     Paragraph paragraph = new Paragraph();
@@ -326,7 +326,7 @@ namespace UnrealAutomationToolGUI
                 ubtProcess.BeginOutputReadLine();
             }
 
-            ubtProcess.Exited += (se, ev) =>
+            ubtProcess.Exited += (sender, e) =>
             {
                 ubtProcess.Dispose();
                 ubtProcess = null;
@@ -357,9 +357,9 @@ namespace UnrealAutomationToolGUI
 
                 uatProcess.StartInfo.UseShellExecute = false;
                 uatProcess.StartInfo.RedirectStandardOutput = true;
-                uatProcess.OutputDataReceived += (s, args) => Dispatcher.Invoke(() =>
+                uatProcess.OutputDataReceived += (sender, e) => Dispatcher.Invoke(() =>
                 {
-                    string output = args.Data;
+                    string output = e.Data;
                     if (output != null)
                     {
                         Paragraph paragraph = new Paragraph();
@@ -388,9 +388,9 @@ namespace UnrealAutomationToolGUI
                         OutputRichTextBox.ScrollToEnd();
                     }
                 });
-                uatProcess.ErrorDataReceived += (s, args) => Dispatcher.Invoke(() =>
+                uatProcess.ErrorDataReceived += (sender, e) => Dispatcher.Invoke(() =>
                 {
-                    string output = args.Data;
+                    string output = e.Data;
                     if (output != null)
                     {
                         Paragraph paragraph = new Paragraph();
@@ -412,7 +412,7 @@ namespace UnrealAutomationToolGUI
                     uatProcess.BeginOutputReadLine();
                 }
 
-                uatProcess.Exited += (se, ev) =>
+                uatProcess.Exited += (sender, e) =>
                 {
                     uatProcess.Dispose();
                     uatProcess = null;
@@ -847,15 +847,18 @@ namespace UnrealAutomationToolGUI
             Settings.Default.Reload();
 
 
-            Application.Current.MainWindow.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
-            Application.Current.MainWindow.BorderBrush = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            Brush primaryColor = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            Brush secondaryColor = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            Brush tertiaryColor = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+
+            Application.Current.MainWindow.Background = secondaryColor;
+            Application.Current.MainWindow.BorderBrush = primaryColor;
 
 
             Brush newLogColor = Brushes.LightGray;
 
-            OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
-            //OutputRichTextBox.SelectionBrush = new SolidColorBrush(Color.FromArgb(150, 0, 200, 255));
+            OutputRichTextBox.Background = primaryColor;
+            OutputRichTextBox.BorderBrush = secondaryColor;
             foreach (Block block in OutputFlowDocument.Blocks)
             {
                 if (block.Foreground == logColor)
@@ -867,21 +870,21 @@ namespace UnrealAutomationToolGUI
 
 
 
-            SettingsRect.Fill = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            SettingsRect.Stroke = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            SettingsRect.Fill = primaryColor;
+            SettingsRect.Stroke = secondaryColor;
 
             foreach (TextBox textBox in Grid.Children.OfType<TextBox>())
             {
                 //textBox.Style = (Style)FindResource(ToolBar.TextBoxStyleKey);
 
-                //textBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                //textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                //textBox.Background = tertiaryColor;
+                //textBox.BorderBrush = secondaryColor;
                 textBox.Foreground = logColor;
             }
             foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
             {
-                //textBlock.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                //textBlock.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                //textBlock.Background = tertiaryColor;
+                //textBlock.BorderBrush = secondaryColor;
                 textBlock.Foreground = logColor;
             }
             foreach (Label label in Grid.Children.OfType<Label>())
@@ -897,27 +900,27 @@ namespace UnrealAutomationToolGUI
             {
                 //checkBox.Style = (Style)FindResource(ToolBar.CheckBoxStyleKey);
 
-                checkBox.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                checkBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                checkBox.Background = tertiaryColor;
+                checkBox.BorderBrush = secondaryColor;
                 checkBox.Foreground = logColor;
             }
             foreach (RadioButton radioButton in Grid.Children.OfType<RadioButton>())
             {
                 //radioButton.Style = (Style)FindResource(ToolBar.RadioButtonStyleKey);
 
-                radioButton.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                radioButton.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                radioButton.Background = tertiaryColor;
+                radioButton.BorderBrush = secondaryColor;
                 radioButton.Foreground = logColor;
             }
             foreach (Button button in Grid.Children.OfType<Button>())
             {
                 button.Style = (Style)FindResource(ToolBar.ButtonStyleKey);
 
-                button.Background = new SolidColorBrush(Color.FromRgb(62, 62, 64));
-                button.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                button.Background = tertiaryColor;
+                button.BorderBrush = secondaryColor;
                 button.Foreground = logColor;
 
-                button.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
+                button.Resources["ComboBoxItem.ItemsviewSelected.Border"] = tertiaryColor;
 
                 if (button == CancelBtn)
                 {
@@ -928,11 +931,11 @@ namespace UnrealAutomationToolGUI
             {
                 comboBox.Style = (Style)FindResource(ToolBar.ComboBoxStyleKey);
 
-                comboBox.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
-                comboBox.BorderBrush = new SolidColorBrush(Color.FromRgb(62, 62, 64));
+                comboBox.Background = secondaryColor;
+                comboBox.BorderBrush = tertiaryColor;
                 comboBox.Foreground = logColor;
 
-                comboBox.Resources["ComboBoxItem.ItemsviewSelected.Border"] = new SolidColorBrush(Color.FromRgb(62, 62, 62));
+                comboBox.Resources["ComboBoxItem.ItemsviewSelected.Border"] = tertiaryColor;
             }
         }
         /// <summary>
