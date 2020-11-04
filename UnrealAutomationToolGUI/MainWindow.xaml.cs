@@ -168,6 +168,7 @@ namespace UnrealAutomationToolGUI
             EngineTypeCombo.SelectedIndex = (int)engineType;
 
             DarkThemeCheckBox.IsChecked = Settings.Default.DarkMode;
+            DarkOutputCheckBox.IsChecked = Settings.Default.DarkOutput;
         }
 
         private void EngineDirectoryBtn_Click(object sender, RoutedEventArgs e)
@@ -820,6 +821,7 @@ namespace UnrealAutomationToolGUI
             SettingsRect.Visibility = Visibility.Visible;
             SettingsMouseCoverage.Visibility = Visibility.Visible;
             DarkThemeCheckBox.Visibility = Visibility.Visible;
+            DarkOutputCheckBox.Visibility = Visibility.Visible;
             RightClickTip.Visibility = Visibility.Visible;
         }
         private void SettingsTextBlock_MouseLeave(object sender, RoutedEventArgs e)
@@ -827,6 +829,7 @@ namespace UnrealAutomationToolGUI
             SettingsRect.Visibility = Visibility.Hidden;
             SettingsMouseCoverage.Visibility = Visibility.Hidden;
             DarkThemeCheckBox.Visibility = Visibility.Hidden;
+            DarkOutputCheckBox.Visibility = Visibility.Hidden;
             RightClickTip.Visibility = Visibility.Hidden;
         }
 
@@ -945,20 +948,23 @@ namespace UnrealAutomationToolGUI
             Settings.Default.Reload();
 
 
-            Brush newLogColor = Brushes.Black;
-
-            foreach (Block block in OutputFlowDocument.Blocks)
+            if (DarkOutputCheckBox.IsChecked == false)
             {
-                if (block.Foreground == logColor)
+                Brush newLogColor = Brushes.Black;
+
+                foreach (Block block in OutputFlowDocument.Blocks)
                 {
-                    block.Foreground = newLogColor;
+                    if (block.Foreground == logColor)
+                    {
+                        block.Foreground = newLogColor;
+                    }
                 }
+                logColor = newLogColor;
+                OutputRichTextBox.Background = Brushes.White;
             }
-            logColor = newLogColor;
 
 
             Application.Current.MainWindow.Background = Brushes.White;
-            OutputRichTextBox.Background = Brushes.White;
             SettingsRect.Fill = Brushes.White;
 
             foreach (CheckBox checkBox in Grid.Children.OfType<CheckBox>())
@@ -980,6 +986,57 @@ namespace UnrealAutomationToolGUI
             {
                 comboBox.Background = Brushes.White;
                 comboBox.Foreground = logColor;
+            }
+        }
+        private void DarkOutputCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.DarkOutput = true;
+            Settings.Default.Save();
+            Settings.Default.Reload();
+
+
+            Brush newLogColor = Brushes.LightGray;
+
+            if (DarkThemeCheckBox.IsChecked == true)
+            {
+                OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            }
+            else
+            {
+                OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            }
+            //OutputRichTextBox.SelectionBrush = new SolidColorBrush(Color.FromArgb(150, 0, 200, 255));
+            foreach (Block block in OutputFlowDocument.Blocks)
+            {
+                if (block.Foreground == logColor)
+                {
+                    block.Foreground = newLogColor;
+                }
+            }
+            logColor = newLogColor;
+        }
+        private void DarkOutputCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.DarkOutput = false;
+            Settings.Default.Save();
+            Settings.Default.Reload();
+
+            if (DarkThemeCheckBox.IsChecked == false)
+            {
+                Brush newLogColor = Brushes.Black;
+
+                OutputRichTextBox.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                OutputRichTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+                foreach (Block block in OutputFlowDocument.Blocks)
+                {
+                    if (block.Foreground == logColor)
+                    {
+                        block.Foreground = newLogColor;
+                    }
+                }
+                logColor = newLogColor;
             }
         }
 

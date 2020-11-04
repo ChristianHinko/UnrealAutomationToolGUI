@@ -70,5 +70,17 @@ namespace UnrealAutomationToolGUI.Properties {
                 this["DarkMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DarkOutput {
+            get {
+                return ((bool)(this["DarkOutput"]));
+            }
+            set {
+                this["DarkOutput"] = value;
+            }
+        }
     }
 }

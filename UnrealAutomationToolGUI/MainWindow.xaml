@@ -75,8 +75,9 @@
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle x:Name="SettingsMouseCoverage" HorizontalAlignment="Left" Height="235" Margin="335,6,0,0" VerticalAlignment="Top" Width="443" Visibility="Hidden" MouseLeave="SettingsTextBlock_MouseLeave" Fill="#00341F1F"/>
-        <Label x:Name="RightClickTip" Content="Tip: some params can be reset by right clicking them" HorizontalAlignment="Left" Margin="527,208,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <Label x:Name="RightClickTip" Content="Tip: some params can be unset by right clicking them" HorizontalAlignment="Left" Margin="527,212,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
         <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="355,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <CheckBox x:Name="DarkOutputCheckBox" Content="Dark Output" HorizontalAlignment="Left" Margin="449,206,0,0" VerticalAlignment="Top" Checked="DarkOutputCheckBox_Checked" Unchecked="DarkOutputCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
 
     </Grid>
 </Window>
