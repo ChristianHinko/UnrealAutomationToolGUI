@@ -106,7 +106,7 @@ namespace UnrealAutomationToolGUI
     ///     - Add argument buttons that add to args list for uatProcess
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
     ///     - Add option to import .ini configuration
-    ///     - Fix Light-Dark mode switching
+    ///     - Fix Light->Dark mode switching
     ///     - Add a way to package incremental packages (patch updates)
     /// </summary>
     public partial class MainWindow : Window
@@ -149,6 +149,8 @@ namespace UnrealAutomationToolGUI
 
         bool archive { get; set; }
         string archiveDirectory { get; set; }
+
+        string customArgs { get; set; }
 
 
         public MainWindow()
@@ -340,7 +342,7 @@ namespace UnrealAutomationToolGUI
 
                 // Run Unreal Automation Tool
 
-                string uatArguments = $"BuildCookRun -Platform=Win64 -Project=\"{uProjectPath}\" -Compile -NoCompileEditor -NoP4";
+                string uatArguments = $"BuildCookRun -Platform=Win64 -Project=\"{uProjectPath}\" -NoCompileEditor -NoP4";
                 uatArguments += BuildUATArguments();
 
                 uatProcess = new Process()
@@ -430,16 +432,15 @@ namespace UnrealAutomationToolGUI
             switch (engineType)
             {
                 case EngineType.TYPE_Rocket:
-                    engineTypeArg = "Rocket";
+                    engineTypeArg = " -Rocket";
                     break;
                 case EngineType.TYPE_Source:
-                    engineTypeArg = "Source";
+                    engineTypeArg = " -Source -Compile";
                     break;
                 case EngineType.TYPE_Installed:
-                    //engineTypeArg = "Source";      //TODO: TEMP idk what arg to use for this
+                    //engineTypeArg = " -Source -Compile";      //TODO: TEMP idk what arg to use for this
                     break;
             }
-            engineTypeArg = " -" + engineTypeArg;
             retVal += engineTypeArg;
 
 
@@ -648,6 +649,9 @@ namespace UnrealAutomationToolGUI
 
 
 
+            retVal += ' ' + customArgs;
+           
+
 
             return retVal;
         }
@@ -798,6 +802,11 @@ namespace UnrealAutomationToolGUI
 
             archiveDirectory = null;
             ArchiveDirectoryTextBox.Text = "Default";
+        }
+
+        private void CustomArgsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            customArgs = CustomArgsTextBox.Text;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

@@ -12,7 +12,6 @@
     <Grid x:Name="Grid">
         <!--Rectangle HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF494949" Width="800" Height="20"/-->
         <!--Image HorizontalAlignment="Left" Margin="750,0,0,0" VerticalAlignment="Top" Width="20" Height="20" Source="/X.png"/-->
-        <Border BorderThickness="1" BorderBrush="Black"/>
 
 
         <Button x:Name="EngineDirectoryBtn" Content="Path to engine" HorizontalAlignment="Left" Margin="18,9,0,0" VerticalAlignment="Top" Click="EngineDirectoryBtn_Click"/>
@@ -49,6 +48,9 @@
         <CheckBox x:Name="ArchiveCheckBox" Content="Archive" HorizontalAlignment="Left" Margin="696,139,0,0" VerticalAlignment="Top" Checked="ArchiveCheckBox_Checked" Unchecked="ArchiveCheckBox_Unchecked" FlowDirection="RightToLeft"/>
         <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="661,159,0,0" VerticalAlignment="Top" Height="24" Click="ArchiveDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
         <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
+
+        <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,185,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="672" TextChanged="CustomArgsTextBox_TextChanged"/>
 
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="605,206,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="716,362,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
