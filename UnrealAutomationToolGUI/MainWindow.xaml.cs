@@ -986,11 +986,12 @@ namespace UnrealAutomationToolGUI
                 //textBox.Background = tertiaryColor;
                 //textBox.BorderBrush = secondaryColor;
                 textBox.Foreground = logColor;
-                if (textBox == CustomArgsTextBox)
+                if (textBox == CustomArgsTextBox || textBox == CreateReleaseVersionTextBox || textBox == BasedOnReleaseVersionTextBox)
                 {
                     textBox.Background = tertiaryColor;
                     textBox.BorderBrush = secondaryColor;
                 }
+
             }
             foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
             {

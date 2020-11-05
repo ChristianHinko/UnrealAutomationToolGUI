@@ -50,21 +50,90 @@
         <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
 
         <Label Content="Create release version" HorizontalAlignment="Left" Margin="566,191,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="CreateReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,195,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="CreateReleaseVersionTextBox_TextChanged"/>
+        <TextBox x:Name="CreateReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,195,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="CreateReleaseVersionTextBox_TextChanged">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="0.0.0" Foreground="DarkGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <Label Content="Based on release version" HorizontalAlignment="Left" Margin="552,214,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="BasedOnReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,218,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="BasedOnReleaseVersionTextBox_TextChanged"/>
-        <CheckBox x:Name="GeneratePatchCheckBox" Content="Generate patch" HorizontalAlignment="Left" ToolTip="(will sometimes take a while on 'Executing 1 UnrealPak command')" Margin="658,241,0,0" VerticalAlignment="Top" Checked="GeneratePatchCheckBox_Checked" Unchecked="GeneratePatchCheckBox_Unchecked" FlowDirection="RightToLeft"/>
+        <TextBox x:Name="BasedOnReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,218,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="BasedOnReleaseVersionTextBox_TextChanged">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="0.0.0" Foreground="DarkGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <CheckBox x:Name="GeneratePatchCheckBox" Content="Generate patch" HorizontalAlignment="Left" ToolTip="(sometimes takes a while on &quot;Executing 1 UnrealPak command&quot;)" Margin="658,241,0,0" VerticalAlignment="Top" Checked="GeneratePatchCheckBox_Checked" Unchecked="GeneratePatchCheckBox_Unchecked" FlowDirection="RightToLeft"/>
 
         <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,262,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" TextChanged="CustomArgsTextBox_TextChanged"/>
+        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,262,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" TextChanged="CustomArgsTextBox_TextChanged">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="-MyArg1 -MyArg2=&quot;MyValue&quot; -MyArg3" Foreground="DarkGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
 
-        <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="773,301,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
-        <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="884,464,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
-        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="773,356,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked" IsChecked="True"/>
-        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="773,376,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
-        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="773,396,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
+        <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="773,291,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
+        <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="884,454,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
+        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="773,346,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="773,366,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="773,386,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
 
-        <RichTextBox x:Name="OutputRichTextBox"  HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Height="183" Width="758" IsReadOnly="True" VerticalContentAlignment="Bottom">
+        <RichTextBox x:Name="OutputRichTextBox"  HorizontalAlignment="Left" Margin="10,291,0,0" VerticalAlignment="Top" Height="183" Width="758" IsReadOnly="True" VerticalContentAlignment="Bottom">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="2"/>
@@ -76,7 +145,7 @@
 
             </FlowDocument>
         </RichTextBox>
-        <Label x:Name="MessageOnProcesses" Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,484,0,0" VerticalAlignment="Top" Foreground="Red"/>
+        <Label x:Name="MessageOnProcesses" Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,474,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
         <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="880,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter"/>
         <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="498,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden">
