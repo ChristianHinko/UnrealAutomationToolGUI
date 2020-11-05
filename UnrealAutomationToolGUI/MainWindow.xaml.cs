@@ -107,7 +107,6 @@ namespace UnrealAutomationToolGUI
     ///     - Pretty up UI (leaving it ugly right now so we can get an MVP)
     ///     - Add option to import .ini configuration
     ///     - Fix Light->Dark mode switching
-    ///     - Add a way to package incremental packages (patch updates)
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -120,6 +119,7 @@ namespace UnrealAutomationToolGUI
         Brush logColor = Brushes.Black;
         Brush warningColor = Brushes.Yellow;
         Brush errorColor = Brushes.Red;
+        Brush markerColor = Brushes.Aqua;
         Brush goodColor = Brushes.LawnGreen;
 
 
@@ -149,6 +149,10 @@ namespace UnrealAutomationToolGUI
 
         bool archive { get; set; }
         string archiveDirectory { get; set; }
+
+        string createReleaseVersion { get; set; }
+        string basedOnReleaseVersion { get; set; }
+        bool generatePatch { get; set; }
 
         string customArgs { get; set; }
 
@@ -281,7 +285,11 @@ namespace UnrealAutomationToolGUI
                     {
                         paragraph.Foreground = warningColor;
                     }
-                    else if (output.Contains("SUCCESSFUL")/* || output.Contains("COMPLETED")*/)
+                    else if (output.Contains("**********"))
+                    {
+                        paragraph.Foreground = markerColor;
+                    }
+                    else if (output.Contains("SUCCESSFUL"))
                     {
                         paragraph.Foreground = goodColor;
                     }
@@ -323,6 +331,17 @@ namespace UnrealAutomationToolGUI
             // Start the process
             if (File.Exists(ubtProcess.StartInfo.FileName) && ubtProcess.Start())
             {
+                Dispatcher.Invoke(() =>
+                {
+                    Paragraph paragraph = new Paragraph()
+                    {
+                        Foreground = Brushes.Magenta
+                    };
+                    paragraph.Inlines.Add(new Run("UBT Started"));
+                    OutputFlowDocument.Blocks.Add(paragraph);
+                    OutputRichTextBox.ScrollToEnd();
+                });
+
                 // Read the process's output so we can display it in the text box
                 ubtProcess.BeginOutputReadLine();
             }
@@ -385,7 +404,11 @@ namespace UnrealAutomationToolGUI
                         {
                             paragraph.Foreground = warningColor;
                         }
-                        else if (output.Contains("SUCCESSFUL")/* || output.Contains("COMPLETED")*/)
+                        else if (output.Contains("**********"))
+                        {
+                            paragraph.Foreground = markerColor;
+                        }
+                        else if (output.Contains("SUCCESSFUL"))
                         {
                             paragraph.Foreground = goodColor;
                         }
@@ -421,6 +444,17 @@ namespace UnrealAutomationToolGUI
                 // Start the process
                 if (File.Exists(uatProcess.StartInfo.FileName) && uatProcess.Start())
                 {
+                    Dispatcher.Invoke(() =>
+                    {
+                        Paragraph paragraph = new Paragraph()
+                        {
+                            Foreground = Brushes.Magenta
+                        };
+                        paragraph.Inlines.Add(new Run("UAT Started"));
+                        OutputFlowDocument.Blocks.Add(paragraph);
+                        OutputRichTextBox.ScrollToEnd();
+                    });
+
                     // Read the process's output so we can display it in the text box
                     uatProcess.BeginOutputReadLine();
                 }
@@ -650,6 +684,32 @@ namespace UnrealAutomationToolGUI
             retVal += archiveDirectoryArg;
 
 
+            string createReleaseVersionArg = "";
+            if (createReleaseVersion != null && createReleaseVersion.Length > 0)
+            {
+                createReleaseVersionArg = $" -CreateReleaseVersion=\"{createReleaseVersion}\"";
+            }
+            retVal += createReleaseVersionArg;
+
+            string generatePatchArg = "";
+            if (generatePatch)
+            {
+                // Requires -BasedOnReleaseVersion
+                generatePatchArg = " -GeneratePatch";
+            }
+            retVal += generatePatchArg;
+
+            string basedOnReleaseVersionArg = "";
+            if (basedOnReleaseVersion != null && basedOnReleaseVersion.Length > 0)
+            {
+                basedOnReleaseVersionArg = $" -BasedOnReleaseVersion=\"{basedOnReleaseVersion}\"";
+            }
+            retVal += basedOnReleaseVersionArg;
+
+
+
+
+
 
 
 
@@ -662,16 +722,12 @@ namespace UnrealAutomationToolGUI
 
 
 
-            ////// <summary>
-            ////// Are we generating a patch, generate a patch from a previously released version of the game (use CreateReleaseVersion to create a release). 
-            ////// this requires BasedOnReleaseVersion
-            ////// see also CreateReleaseVersion, BasedOnReleaseVersion
-            ////// </summary>
-            //public bool GeneratePatch;
 
 
-
-            retVal += ' ' + customArgs;
+            if (customArgs != null && customArgs.Length > 0)
+            {
+                retVal += ' ' + customArgs;
+            }
            
 
 
@@ -824,6 +880,25 @@ namespace UnrealAutomationToolGUI
 
             archiveDirectory = null;
             ArchiveDirectoryTextBox.Text = "Default";
+        }
+
+        private void CreateReleaseVersionTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            createReleaseVersion = CreateReleaseVersionTextBox.Text;
+        }
+
+        private void BasedOnReleaseVersionTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            basedOnReleaseVersion = BasedOnReleaseVersionTextBox.Text;
+        }
+
+        private void GeneratePatchCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            generatePatch = GeneratePatchCheckBox.IsEnabled;
+        }
+        private void GeneratePatchCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            generatePatch = GeneratePatchCheckBox.IsEnabled;
         }
 
         private void CustomArgsTextBox_TextChanged(object sender, TextChangedEventArgs e)

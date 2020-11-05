@@ -49,8 +49,14 @@
         <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="660,159,0,0" VerticalAlignment="Top" Height="24" Click="ArchiveDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
         <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
 
-        <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,185,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="672" TextChanged="CustomArgsTextBox_TextChanged"/>
+        <Label Content="Create release version" HorizontalAlignment="Left" Margin="566,191,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CreateReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,195,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="CreateReleaseVersionTextBox_TextChanged"/>
+        <Label Content="Based on release version" HorizontalAlignment="Left" Margin="552,214,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="BasedOnReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,218,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="BasedOnReleaseVersionTextBox_TextChanged"/>
+        <CheckBox x:Name="GeneratePatchCheckBox" Content="Generate patch" HorizontalAlignment="Left" ToolTip="(will sometimes take a while on 'Executing 1 UnrealPak command')" Margin="658,241,0,0" VerticalAlignment="Top" Checked="GeneratePatchCheckBox_Checked" Unchecked="GeneratePatchCheckBox_Unchecked" FlowDirection="RightToLeft"/>
+
+        <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,262,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" TextChanged="CustomArgsTextBox_TextChanged"/>
 
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="773,301,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="884,464,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
@@ -73,15 +79,15 @@
         <Label x:Name="MessageOnProcesses" Content="Closing application will end any started processes" HorizontalAlignment="Left" Margin="10,484,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
         <TextBlock x:Name="SettingsTextBlock" HorizontalAlignment="Left" Margin="880,10,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" Background="#19535353" MouseEnter="SettingsTextBlock_MouseEnter"/>
-        <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="344,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden">
+        <Rectangle x:Name="SettingsRect" HorizontalAlignment="Left" Height="205" Margin="498,26,0,0" Stroke="Black" VerticalAlignment="Top" Width="425" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden">
             <Rectangle.Fill>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="SettingsMouseCoverage" HorizontalAlignment="Left" Height="235" Margin="335,6,0,0" VerticalAlignment="Top" Width="443" Visibility="Hidden" MouseLeave="SettingsTextBlock_MouseLeave" Fill="#00341F1F"/>
-        <Label x:Name="RightClickTip" Content="Tip: some params can be unset by right clicking them" HorizontalAlignment="Left" Margin="527,212,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
-        <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="355,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
-        <CheckBox x:Name="DarkOutputCheckBox" Content="Dark Output" HorizontalAlignment="Left" Margin="449,206,0,0" VerticalAlignment="Top" Checked="DarkOutputCheckBox_Checked" Unchecked="DarkOutputCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <Rectangle x:Name="SettingsMouseCoverage" HorizontalAlignment="Left" Height="241" Margin="485,0,0,0" VerticalAlignment="Top" Width="449" Visibility="Hidden" MouseLeave="SettingsTextBlock_MouseLeave" Fill="#00341F1F"/>
+        <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="505,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <CheckBox x:Name="DarkOutputCheckBox" Content="Dark Output" HorizontalAlignment="Left" Margin="600,206,0,0" VerticalAlignment="Top" Checked="DarkOutputCheckBox_Checked" Unchecked="DarkOutputCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <Label x:Name="RightClickTip" Content="Tip: some params can be unset by right clicking them" HorizontalAlignment="Left" Margin="681,212,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
 
     </Grid>
 </Window>
