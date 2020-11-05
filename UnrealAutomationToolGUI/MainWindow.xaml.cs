@@ -333,6 +333,18 @@ namespace UnrealAutomationToolGUI
                 ubtProcess.Dispose();
                 ubtProcess = null;
 
+                Dispatcher.Invoke(() =>
+                {
+                    Paragraph paragraph = new Paragraph()
+                    {
+                        Foreground = Brushes.Magenta
+                    };
+                    paragraph.Inlines.Add(new Run("UBT Exited"));
+                    OutputFlowDocument.Blocks.Add(paragraph);
+                    OutputRichTextBox.ScrollToEnd();
+                });
+
+
                 // Ensure the user wants us to start this process
                 if (pendingProcessKill)
                 {
@@ -418,6 +430,17 @@ namespace UnrealAutomationToolGUI
                 {
                     uatProcess.Dispose();
                     uatProcess = null;
+
+                    Dispatcher.Invoke(() =>
+                    {
+                        Paragraph paragraph = new Paragraph()
+                        {
+                            Foreground = Brushes.Magenta
+                        };
+                        paragraph.Inlines.Add(new Run("UAT Exited"));
+                        OutputFlowDocument.Blocks.Add(paragraph);
+                        OutputRichTextBox.ScrollToEnd();
+                    });
                 };
             };
         }
@@ -889,6 +912,11 @@ namespace UnrealAutomationToolGUI
                 //textBox.Background = tertiaryColor;
                 //textBox.BorderBrush = secondaryColor;
                 textBox.Foreground = logColor;
+                if (textBox == CustomArgsTextBox)
+                {
+                    textBox.Background = tertiaryColor;
+                    textBox.BorderBrush = secondaryColor;
+                }
             }
             foreach (TextBlock textBlock in Grid.Children.OfType<TextBlock>())
             {
