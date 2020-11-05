@@ -157,7 +157,6 @@ namespace UnrealAutomationToolGUI
         {
             InitializeComponent();
 
-
             // Load user preferences
 
             engineDirectory = Settings.Default.EngineDirectory;
