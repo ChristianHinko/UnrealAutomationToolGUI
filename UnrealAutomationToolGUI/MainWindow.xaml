@@ -27,12 +27,12 @@
         <Label Content="Options" HorizontalAlignment="Left" Margin="726,93,0,0" VerticalAlignment="Top"/>
 
         <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="4">
         </ComboBox>
         <CheckBox x:Name="PakCheckBox" Content="Pak" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Checked="PakCheckBox_Checked" Unchecked="PakCheckBox_Unchecked" IsChecked="True"/>
 
         <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="2" BorderBrush="#FFA62626">
             <!--Style = "{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"-->
 
         </ComboBox>
