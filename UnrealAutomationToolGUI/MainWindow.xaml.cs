@@ -35,6 +35,8 @@ namespace UnrealAutomationToolGUI
 
     enum BuildConfiguration
     {
+        BUILD_None,
+
         [Description("Debug")]
         BUILD_Debug,
 
@@ -53,6 +55,8 @@ namespace UnrealAutomationToolGUI
 
     enum TargetPlatform
     {
+        PLAT_None,
+
         [Description("Win32")]
         PLAT_Win32,
 
@@ -96,7 +100,10 @@ namespace UnrealAutomationToolGUI
         PLAT_Switch,
 
         [Description("Lumin")]
-        PLAT_Lumin
+        PLAT_Lumin,
+
+        [Description("XXX")]
+        PLAT_XXX
     }
 
     /// <summary>
@@ -140,12 +147,12 @@ namespace UnrealAutomationToolGUI
 
         bool pak { get; set; }
 
-        bool stage { get; set; }
-        bool skipStage { get; set; }
-        string stagingDirectory { get; set; }
 
         bool server { get; set; }
         bool noClient { get; set; }
+
+        bool stage { get; set; }
+        string stagingDirectory { get; set; }
 
         bool archive { get; set; }
         string archiveDirectory { get; set; }
@@ -494,36 +501,58 @@ namespace UnrealAutomationToolGUI
                     engineTypeArg = " -Source -Compile";
                     break;
                 case EngineType.TYPE_Installed:
-                    //engineTypeArg = " -Source -Compile";      //TODO: TEMP idk what arg to use for this
+                    engineTypeArg = " -Source -Compile";      //TODO: TEMP idk what arg to use for this
                     break;
             }
             retVal += engineTypeArg;
 
 
-            // -ClientConfig=<Configuration> -ServerConfig=<Configuration>
+            // (-NoClient) -ClientConfig=<Configuration> (-Server) -ServerConfig=<Configuration>
             string buildConfigurationArg = "";
+            string buildConfigurationString = "";
             switch (buildConfiguration)
             {
+                case BuildConfiguration.BUILD_None:
+                    break;
                 case BuildConfiguration.BUILD_Debug:
-                    buildConfigurationArg = "Debug";
+                    buildConfigurationString = "Debug";
                     break;
                 case BuildConfiguration.BUILD_DebugGame:
-                    buildConfigurationArg = "DebugGame";
+                    buildConfigurationString = "DebugGame";
                     break;
                 case BuildConfiguration.BUILD_Development:
-                    buildConfigurationArg = "Development";
+                    buildConfigurationString = "Development";
                     break;
                 case BuildConfiguration.BUILD_Shipping:
-                    buildConfigurationArg = "Shipping";
+                    buildConfigurationString = "Shipping";
                     break;
                 case BuildConfiguration.BUILD_Test:
-                    buildConfigurationArg = "Test";
+                    buildConfigurationString = "Test";
                     break;
                 default:
-                    buildConfigurationArg = "Unknown";
+                    buildConfigurationString = "Unknown";
                     break;
             }
-            buildConfigurationArg = $" -ClientConfig={buildConfigurationArg} -ServerConfig={buildConfigurationArg}";
+
+            if (!noClient)
+            {
+                if (buildConfigurationString.Length > 0)
+                {
+                    buildConfigurationArg += $" -ClientConfig={buildConfigurationString}";
+                }
+            }
+            else
+            {
+                buildConfigurationArg += " -NoClient";
+            }
+            if (server)
+            {
+                buildConfigurationArg += " -Server";
+                if (buildConfigurationString.Length > 0)
+                {
+                    buildConfigurationArg += $" -ServerConfig={buildConfigurationString}";
+                }
+            }
             retVal += buildConfigurationArg;
 
 
@@ -579,7 +608,10 @@ namespace UnrealAutomationToolGUI
                 default:
                     break;
             }
-            targetPlatformArg = $" -TargetPlatform={targetPlatformArg}";
+            if (targetPlatformArg.Length > 0)
+            {
+                targetPlatformArg = $" -TargetPlatform={targetPlatformArg}";
+            }
             retVal += targetPlatformArg;
 
 
@@ -627,16 +659,11 @@ namespace UnrealAutomationToolGUI
             {
                 stageArg = " -Stage";
             }
-            retVal += stageArg;
-
-
-            // -SkipStage
-            string skipStageArg = "";
-            if (skipStage)
+            else
             {
-                skipStageArg = " -SkipStage";
+                stageArg = " -SkipStage";
             }
-            retVal += skipStageArg;
+            retVal += stageArg;
 
 
             // StagingDirectory=<Dir>
@@ -646,24 +673,6 @@ namespace UnrealAutomationToolGUI
                 stagingDirectoryArg = $" -StagingDirectory=\"{stagingDirectory}\"";
             }
             retVal += stagingDirectoryArg;
-
-
-            // -Server
-            string serverArg = "";
-            if (server)
-            {
-                serverArg = " -Server";
-            }
-            retVal += serverArg;
-
-
-            // -NoClient
-            string noClientArg = "";
-            if (noClient)
-            {
-                noClientArg = " -NoClient";
-            }
-            retVal += noClientArg;
 
 
             // -Archive
@@ -780,32 +789,15 @@ namespace UnrealAutomationToolGUI
             pak = false;
         }
 
-        private void StageRadioBtn_Checked(object sender, RoutedEventArgs e)
+        private void StageCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             stage = true;
         }
-        private void StageRadioBtn_UnChecked(object sender, RoutedEventArgs e)
+        private void StageCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             stage = false;
         }
-        private void SkipStageRadioBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            skipStage = true;
-        }
-        private void SkipStageRadioBtn_UnChecked(object sender, RoutedEventArgs e)
-        {
-            skipStage = false;
-        }
 
-        private void ResetStage(object sender, RoutedEventArgs e)
-        {
-            // Reset this option
-
-            stage = false;
-            skipStage = false;
-            StageRadioBtn.IsChecked = false;
-            SkipStageRadioBtn.IsChecked = false;
-        }
 
         private void StagingDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {

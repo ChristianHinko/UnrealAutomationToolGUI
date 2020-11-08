@@ -23,34 +23,33 @@
                   ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:EngineType}}}">
         </ComboBox>
 
-        <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="720"/>
-        <Label Content="Options" HorizontalAlignment="Left" Margin="726,93,0,0" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="14" Width="866"/>
+        <Label Content="Options" HorizontalAlignment="Left" Margin="871,93,0,0" VerticalAlignment="Top"/>
 
-        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="3">
+        <ComboBox x:Name="BuildConfigurationCombo" HorizontalAlignment="Left" Margin="773,346,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="BuildConfigurationCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:BuildConfiguration}}}" SelectedIndex="4">
         </ComboBox>
-        <CheckBox x:Name="PakCheckBox" Content="Pak" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Checked="PakCheckBox_Checked" Unchecked="PakCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="PakCheckBox" Content="Pak" HorizontalAlignment="Left" Margin="746,157,0,0" VerticalAlignment="Top" Checked="PakCheckBox_Checked" Unchecked="PakCheckBox_Unchecked" IsChecked="True"/>
 
-        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="135,116,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
-                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="1" BorderBrush="#FFA62626">
+        <ComboBox x:Name="TargetPlatformCombo" HorizontalAlignment="Left" Margin="773,373,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TargetPlatformCombo_SelectionChanged"
+                  ItemsSource="{Binding Source={local:EnumBindingResource {x:Type local:TargetPlatform}}}" SelectedIndex="2" BorderBrush="#FFA62626">
             <!--Style = "{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"-->
 
         </ComboBox>
-        <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="135,143,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
-        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
+        <CheckBox x:Name="ServerCheckBox" Content="Server" HorizontalAlignment="Left" Margin="286,137,0,0" VerticalAlignment="Top" Checked="ServerCheckBox_Checked" Unchecked="ServerCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="NoClientCheckBox" Content="No client" HorizontalAlignment="Left" Margin="286,157,0,0" VerticalAlignment="Top" Checked="NoClientCheckBox_Checked" Unchecked="NoClientCheckBox_Unchecked"/>
 
-        <RadioButton x:Name="StageRadioBtn" Content="Stage" HorizontalAlignment="Left" Margin="281,145,0,0" VerticalAlignment="Top" Checked="StageRadioBtn_Checked" Unchecked="StageRadioBtn_UnChecked" IsChecked="True" PreviewMouseRightButtonDown="ResetStage"/>
-        <RadioButton x:Name="SkipStageRadioBtn" Content="Skip stage" HorizontalAlignment="Left" Margin="281,165,0,0" VerticalAlignment="Top" Checked="SkipStageRadioBtn_Checked" Unchecked="SkipStageRadioBtn_UnChecked" PreviewMouseRightButtonDown="ResetStage"/>
-        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="281,115,0,0" VerticalAlignment="Top" Height="25" Click="StagingDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
+        <CheckBox x:Name="StageCheckBox" Content="Stage" HorizontalAlignment="Left" Margin="118,195,0,0" VerticalAlignment="Top" Checked="StageCheckBox_Checked" Unchecked="StageCheckBox_Unchecked" IsChecked="True" FlowDirection="RightToLeft"/>
+        <Button x:Name="StagingDirectoryBtn" Content="Staging Directory" HorizontalAlignment="Left" Margin="172,191,0,0" VerticalAlignment="Top" Height="26" Click="StagingDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
         <!--Style = "{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/-->
-        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="382,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
+        <TextBox x:Name="StagingDirectoryTextBox" HorizontalAlignment="Left" Margin="274,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="592" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="30" VerticalContentAlignment="Center" PreviewMouseRightButtonDown="ResetStagingDirectory"/>
 
-        <CheckBox x:Name="ArchiveCheckBox" Content="Archive" HorizontalAlignment="Left" Margin="696,139,0,0" VerticalAlignment="Top" Checked="ArchiveCheckBox_Checked" Unchecked="ArchiveCheckBox_Unchecked" FlowDirection="RightToLeft"/>
-        <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="660,159,0,0" VerticalAlignment="Top" Height="24" Click="ArchiveDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
-        <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="367,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
+        <CheckBox x:Name="ArchiveCheckBox" Content="Archive" HorizontalAlignment="Left" Margin="108,228,0,0" VerticalAlignment="Top" Checked="ArchiveCheckBox_Checked" Unchecked="ArchiveCheckBox_Unchecked" FlowDirection="RightToLeft"/>
+        <Button x:Name="ArchiveDirectoryBtn" Content="Archive Directory" HorizontalAlignment="Left" Margin="172,223,0,0" VerticalAlignment="Top" Height="26" Click="ArchiveDirectoryBtn_Click" PreviewMouseRightButtonDown="ResetArchiveDirectory" Width="96"/>
+        <TextBox x:Name="ArchiveDirectoryTextBox" HorizontalAlignment="Left" Margin="274,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="592" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="Default" Height="30" VerticalContentAlignment="Center" PreviewMouseRightButtonDown="ResetArchiveDirectory"/>
 
-        <Label Content="Create release version" HorizontalAlignment="Left" Margin="566,191,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="CreateReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,195,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="CreateReleaseVersionTextBox_TextChanged">
+        <Label Content="Create release version" HorizontalAlignment="Left" Margin="440,107,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CreateReleaseVersionTextBox" HorizontalAlignment="Left" Margin="571,111,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="CreateReleaseVersionTextBox_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                     <Style.Resources>
@@ -74,8 +73,8 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Label Content="Based on release version" HorizontalAlignment="Left" Margin="552,214,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="BasedOnReleaseVersionTextBox" HorizontalAlignment="Left" Margin="697,218,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="BasedOnReleaseVersionTextBox_TextChanged">
+        <Label Content="Based on release version" HorizontalAlignment="Left" Margin="426,130,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="BasedOnReleaseVersionTextBox" HorizontalAlignment="Left" Margin="571,134,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="BasedOnReleaseVersionTextBox_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                     <Style.Resources>
@@ -99,10 +98,10 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <CheckBox x:Name="GeneratePatchCheckBox" Content="Generate patch" HorizontalAlignment="Left" ToolTip="(sometimes takes a while on &quot;Executing 1 UnrealPak command&quot;)" Margin="658,241,0,0" VerticalAlignment="Top" Checked="GeneratePatchCheckBox_Checked" Unchecked="GeneratePatchCheckBox_Unchecked" FlowDirection="RightToLeft"/>
+        <CheckBox x:Name="GeneratePatchCheckBox" Content="Generate patch" HorizontalAlignment="Left" ToolTip="(sometimes takes a while on &quot;Executing 1 UnrealPak command&quot;)" Margin="485,157,0,0" VerticalAlignment="Top" Checked="GeneratePatchCheckBox_Checked" Unchecked="GeneratePatchCheckBox_Unchecked" FlowDirection="RightToLeft"/>
 
-        <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,262,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" TextChanged="CustomArgsTextBox_TextChanged">
+        <Label Content="Custom args" HorizontalAlignment="Left" Margin="10,263,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CustomArgsTextBox" HorizontalAlignment="Left" Margin="83,268,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" TextChanged="CustomArgsTextBox_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                     <Style.Resources>
@@ -129,9 +128,9 @@
 
         <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="773,291,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="RunBtn_Click" FontSize="18"/>
         <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="884,454,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="#FFEAB9B9"/>
-        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="773,346,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked" IsChecked="True"/>
-        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="773,366,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
-        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="773,386,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="BuildCheckBox" Content="Build" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" Checked="BuildCheckBox_Checked" Unchecked="BuildCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="CookCheckBox" Content="Cook" HorizontalAlignment="Left" Margin="186,112,0,0" VerticalAlignment="Top" Checked="CookCheckBox_Checked" Unchecked="CookCheckBox_Unchecked" IsChecked="True"/>
+        <CheckBox x:Name="PackageCheckBox" Content="Package" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Checked="PackageCheckBox_Checked" Unchecked="PackageCheckBox_Unchecked" IsChecked="True"/>
 
         <RichTextBox x:Name="OutputRichTextBox"  HorizontalAlignment="Left" Margin="10,291,0,0" VerticalAlignment="Top" Height="183" Width="758" IsReadOnly="True" VerticalContentAlignment="Bottom">
             <RichTextBox.Resources>
@@ -157,6 +156,18 @@
         <CheckBox x:Name="DarkThemeCheckBox" Content="Dark Theme" HorizontalAlignment="Left" Margin="505,206,0,0" VerticalAlignment="Top" Checked="DarkThemeCheckBox_Checked" Unchecked="DarkThemeCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
         <CheckBox x:Name="DarkOutputCheckBox" Content="Dark Output" HorizontalAlignment="Left" Margin="600,206,0,0" VerticalAlignment="Top" Checked="DarkOutputCheckBox_Checked" Unchecked="DarkOutputCheckBox_Unchecked" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
         <Label x:Name="RightClickTip" Content="Tip: some params can be unset by right clicking them" HorizontalAlignment="Left" Margin="681,212,0,0" VerticalAlignment="Top" FontSize="10" MouseEnter="SettingsTextBlock_MouseEnter" Visibility="Hidden"/>
+        <Separator HorizontalAlignment="Left" Margin="144,144,0,0" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <Separator HorizontalAlignment="Left" Margin="0,176,0,0" VerticalAlignment="Top" Height="14" Width="922"/>
+        <Separator HorizontalAlignment="Left" Margin="0,249,0,0" VerticalAlignment="Top" Height="14" Width="922"/>
 
     </Grid>
 </Window>
