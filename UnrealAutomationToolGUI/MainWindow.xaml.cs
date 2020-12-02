@@ -909,11 +909,11 @@ namespace UnrealAutomationToolGUI
 
         private void GeneratePatchCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            generatePatch = GeneratePatchCheckBox.IsEnabled;
+            generatePatch = true;
         }
         private void GeneratePatchCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            generatePatch = GeneratePatchCheckBox.IsEnabled;
+            generatePatch = false;
         }
 
         private void CustomArgsTextBox_TextChanged(object sender, TextChangedEventArgs e)
